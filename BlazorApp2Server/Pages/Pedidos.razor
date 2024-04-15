@@ -1,0 +1,187 @@
+﻿@page "/pedidos"
+@inject PedidoService pedidoService
+@using Blazor_MestreDetalhes.Data
+@using Blazor_MestreDetalhes.Shared
+@using global::Dieta.Core.Data
+
+<h1>Pedidos</h1>
+
+@if (pedidos == null)
+{
+    <div>
+        <img src="/images/basicloader.gif" />
+    </div>
+}
+else
+{
+    <div class="row">
+    <div class="col-md-6">
+
+            @* <RadzenButton Click=@(args => OnClick("Medium icon button")) Icon="add" ButtonStyle="ButtonStyle.Primary" Size="ButtonSize.Medium" /> *@
+            
+        <RadzenDataGrid Data="@pedidos" TItem="Pedido" AllowFiltering="true" AllowPaging="true"
+                        PageSize="5"
+                        SelectionMode="DataGridSelectionMode.Single"
+                        @bind-Value=@selectedPedido
+                        RowSelect="@(args=> pedido=args)">
+            <Columns>
+            <RadzenDataGridColumn TItem="Pedido" Property="PedidoID" Title="ID" Width="20px" />
+            <RadzenDataGridColumn TItem="Pedido" Property="ClienteFoto" Title="Cliente" Width="90px">
+                 <Template Context="data">
+                        <RadzenImage Path="@data.ClienteFoto" style="width: 32px; height: 32px; border-radius: 16px; margin-right: 6px;" />
+                        @data.ClienteNome
+                    </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="Pedido" Property="PedidoData" Title="Data" Width="80px">
+
+                   <Template Context="data">
+                        @String.Format("{0:d}", data.PedidoData)
+                            
+                    </Template>
+            </RadzenDataGridColumn>
+                    
+            </Columns>
+        </RadzenDataGrid>
+    </div>
+   @if (selectedPedido?.Any() == true)
+   {
+            <div class ="col-md-6">
+                <span style="accent-color" >Adcionar</span>
+                <RadzenButton Click=@(args => Atualizar(selectedPedido[0])) Icon="add" ButtonStyle="ButtonStyle.Secondary" Size="ButtonSize.Medium" />
+       </div>
+            
+        <div class="col-md-6">
+           <RadzenCard Style="margin-bottom:10px">
+                Pedidos do(a) :<b>@selectedPedido[0].ClienteNome</b>
+            </RadzenCard>
+
+            <RadzenTabs>
+                <Tabs>
+                    <RadzenTabsItem Text="Detalhes">
+                        <RadzenDataGrid AllowFiltering="true" AllowPaging="true" 
+                          Data="@pedido.PedidoDetalhes" TItem="PedidoDetalhes">
+                            <Columns>
+                                <RadzenDataGridColumn TItem="PedidoDetalhes" Property="ProdutoID" Title="ID" />
+                                <RadzenDataGridColumn TItem="PedidoDetalhes" Property="ProdutoNome" Title="Produto" />
+                                <RadzenDataGridColumn TItem="PedidoDetalhes" Property="Quantidade" Title="Qtde" />
+                                <RadzenDataGridColumn TItem="PedidoDetalhes" Property="Preco" Title="Preço">
+                                    <Template Context="data">
+                                        @String.Format("{0:c}", data.Preco)
+                                    </Template>
+                                </RadzenDataGridColumn>
+                            </Columns>
+                        </RadzenDataGrid>
+                    </RadzenTabsItem>
+                </Tabs>
+            </RadzenTabs>
+
+        </div>
+    }
+ </div>
+
+}
+
+@if (pedidosNovo?.Any() != null)
+{
+    <div>
+     <RadzenDataGrid Data="@pedidosNovo" TItem="Pedido" AllowFiltering="true" AllowPaging="true"
+                        PageSize="5"
+                        SelectionMode="DataGridSelectionMode.Single"
+                        @bind-Value=@selectedPedido2
+                        RowSelect="@(args=> pedido=args)">
+            <Columns>
+            <RadzenDataGridColumn TItem="Pedido" Property="PedidoID" Title="ID" Width="20px" />
+            <RadzenDataGridColumn TItem="Pedido" Property="ClienteFoto" Title="Cliente" Width="90px">
+                 <Template Context="data">
+                        <RadzenImage Path="@data.ClienteFoto" style="width: 32px; height: 32px; border-radius: 16px; margin-right: 6px;" />
+                        @data.ClienteNome
+                    </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="Pedido" Property="PedidoData" Title="Data" Width="80px">
+
+                   <Template Context="data">
+                        @String.Format("{0:d}", data.PedidoData)
+                            
+                    </Template>
+            </RadzenDataGridColumn>
+                    
+            </Columns>
+        </RadzenDataGrid>
+    </div>
+}
+@if (selectedPedido2?.Any() == true)
+{
+    <div class="col-md-6">
+
+        <RadzenButton Click=@(args => AtualizarExcluir(selectedPedido2[0])) Text="Deletar" ButtonStyle="ButtonStyle.Danger" />
+        
+    </div>
+}
+
+
+@code {
+    
+    Botao botao = new Botao();
+    Pedido pedido = new Pedido();
+    IEnumerable<Pedido>? pedidos;
+    IList<Pedido>? selectedPedido;
+
+    IList<Pedido>? selectedPedido2;
+    Pedido excluido = new Pedido();
+
+
+    
+
+    IEnumerable<Pedido>? pedidosNovo;
+
+    protected override async Task OnInitializedAsync()
+    {
+       
+        pedidos = await Task.Run(() => pedidoService.PedidoLista());
+    }
+    private async Task Atualizar(Pedido nome)
+    {
+        
+
+        pedidosNovo = await Task.Run(() => AddNome(nome));
+
+    }
+    private async Task AtualizarExcluir(Pedido nome)
+    {
+
+        pedidosNovo = await Task.Run(() => Excluir(nome));
+
+    }
+
+    List<Pedido>  listaAtualizada = new List<Pedido>();
+    public async Task<List<Pedido>> AddNome(Pedido nome)
+    {   
+        listaAtualizada.Add(pedido);
+
+        pedidosNovo = await Task.Run(() => pedidoService.PedidoLista2());
+        return await Task.FromResult(listaAtualizada);
+
+    }
+    public async Task<List<Pedido>> Excluir(Pedido nome)
+    {
+
+        foreach (var pedido in pedidos)
+        {
+            if(pedido.ClienteNome == nome.ClienteNome)
+            {
+
+                listaAtualizada.Remove(nome);
+            }
+           }
+        pedidosNovo = await Task.Run(() => pedidoService.PedidoLista2());
+        return await Task.FromResult(listaAtualizada);
+    }
+
+
+}
+
+
+
+
+
+

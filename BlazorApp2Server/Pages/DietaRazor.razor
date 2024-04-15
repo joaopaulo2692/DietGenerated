@@ -1,0 +1,942 @@
+﻿@page "/dieta"
+@inject AlimentoService alimentoService
+
+
+
+
+@using System.Threading;
+@using Blazor_MestreDetalhes.Data
+@using Blazor_MestreDetalhes.Service
+@using Blazor_MestreDetalhes.Shared
+@using global::Dieta.Core.Data
+
+
+
+
+
+
+<div >
+    
+    <RadzenCard class="rz-background-color-base-200">
+   
+
+        <RadzenRadzenLabel><h3 class="" style=" font-size: 24px; text-align: center;">Buscar Alimento</h3></RadzenRadzenLabel>
+    <p></p>
+    <RadzenTextBox Change=@(args => buscaAlimento =args.ToString() ) class="w-100" @oninput=@(args => BuscarAlimento(args.Value.ToString())) />
+    </RadzenCard>
+</div>
+@if (mostrarDataBusca ==false | cardapio2 == null )
+{
+    
+}
+else
+{
+    
+    <RadzenDataGrid Data="@cardapio2" TItem="Alimentos" AllowFiltering="true" AllowPaging="true"
+                    PageSize="10"
+                    SelectionMode="DataGridSelectionMode.Single"
+                    @bind-Value=@selectedAlimentoBusca
+                    RowDoubleClick=@(args => AddAlimento(ConversaoNumeros(selectedAlimentoBusca[0],quantidade),quantidade,refeicaoSelecionada-1))
+                    RowSelect="@(args=> pedido=args)">
+        <EmptyTemplate>
+            <p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">Alimento não encontrado</p>
+        </EmptyTemplate>
+        <Columns>
+            <RadzenDataGridColumn TItem="Alimentos" Property="Alimento" Title="Alimento" Width="20px" />
+            <RadzenDataGridColumn TItem="Alimentos" Property="Carboidrato" Title="Carboidrato" Width="8px">
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="Alimentos" Property="Preparo" Title="Modo de Preparo" Width="8px" />
+            <RadzenDataGridColumn TItem="Alimentos" Property="Proteina" Title="Proteina" Width="8px">
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="Alimentos" Property="Lipidio" Title="Gordura" Width="8px" />
+            <RadzenDataGridColumn TItem="Alimentos" Property="Kcal" Title="Kcal" Width="8px" />
+
+        </Columns>
+    </RadzenDataGrid>
+  
+
+    if (busca == true)
+    {
+        <RadzenDataGrid Data="@cardapio2" TItem="Alimentos" AllowFiltering="true" AllowPaging="true"
+                        PageSize="5"
+                        SelectionMode="DataGridSelectionMode.Single"
+                        @bind-Value=@selectedAlimentoBusca
+                        RowSelect="@(args=> pedido=args)">
+
+            <Columns>
+                <RadzenDataGridColumn TItem="Alimentos" Property="Alimento" Title="Alimento" Width="20px" />
+                <RadzenDataGridColumn TItem="Alimentos" Property="Preparo" Title="Modo de Preparo" Width="8px" />
+                <RadzenDataGridColumn TItem="Alimentos" Property="Carboidrato" Title="Carboidrato" Width="8px">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Alimentos" Property="Proteina" Title="Proteina" Width="8px">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Alimentos" Property="Lipidio" Title="Gordura" Width="8px" />
+                <RadzenDataGridColumn TItem="Alimentos" Property="Kcal" Title="Kcal" Width="8px" />
+
+            </Columns>
+        </RadzenDataGrid>
+    }
+
+}
+
+
+
+@if(cardapio == null & mostrarDataBusca == true)
+{
+    <div>
+        <img src="/images/basicloader.gif" />
+    </div>
+}
+@if (cardapio == null | mostrarDataBusca == true)
+{
+    
+}
+
+else
+{
+
+
+    <RadzenDataGrid Data="@cardapio" TItem="Alimentos" AllowFiltering="true" AllowPaging="true" EditMode="DataGridEditMode.Single"
+                    PageSize="5"
+                    SelectionMode="DataGridSelectionMode.Single" 
+                    @bind-Value=@selectedAlimento
+                    RowDoubleClick=@(args => AddAlimento(ConversaoNumeros(selectedAlimento[0],quantidade),quantidade,refeicaoSelecionada-1))
+                    RowSelect="@(args=> pedido=args)">
+        
+        <Columns>
+            <RadzenDataGridColumn TItem="Alimentos" Property="Alimento" Title="Alimento" Width="20px" />
+            <RadzenDataGridColumn TItem="Alimentos" Property="Preparo" Title="Modo de Preparo" Width="8px" />
+            <RadzenDataGridColumn TItem="Alimentos" Property="Carboidrato" Title="Carboidrato" Width="8px">
+                <EditTemplate Context="order">
+                    <RadzenDropDown @bind-Value="order.Carboidrato" Data="@cardapio" TextProperty="CompanyName" ValueProperty="CustomerID" Style="width:100%; display: block;" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            
+            <RadzenDataGridColumn TItem="Alimentos" Property="Proteina" Title="Proteina" Width="8px">
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="Alimentos" Property="Lipidio" Title="Gordura" Width="8px" />
+            <RadzenDataGridColumn TItem="Alimentos" Property="Kcal" Title="Kcal" Width="8px" />
+
+           
+
+        </Columns>
+    </RadzenDataGrid>
+
+
+    if(busca == true)
+    {
+        <RadzenDataGrid Data="@cardapio" TItem="Alimentos" AllowFiltering="true" AllowPaging="true" 
+                        PageSize="5"
+                        SelectionMode="DataGridSelectionMode.Single"
+                        @bind-Value=@selectedAlimento
+                        RowSelect="@(args=> pedido=args)">
+
+            <Columns>
+                <RadzenDataGridColumn TItem="Alimentos" Property="Alimento" Title="Alimento" Width="20px" />
+                <RadzenDataGridColumn TItem="Alimentos" Property="Preparo" Title="Modo de Preparo" Width="8px" />
+                <RadzenDataGridColumn TItem="Alimentos" Property="Carboidrato" Title="Carboidrato" Width="8px">
+
+                    
+
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Alimentos" Property="Proteina" Title="Proteina" Width="8px">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Alimentos" Property="Lipidio" Title="Gordura" Width="8px" />
+                <RadzenDataGridColumn TItem="Alimentos" Property="Kcal" Title="Kcal" Width="8px" />
+
+
+              
+            </Columns>
+        </RadzenDataGrid>
+
+        <style>
+            .rz-grid-table {
+                width: unset;
+            }
+        </style>
+    }
+}
+@if(mensagemErro == true){
+<RadzenAlert AlertStyle="AlertStyle.Danger" ShowIcon="true" Variant="Variant.Flat" Shade="Shade.Lighter">
+    <h3>Número inválido para quantidade!!!</h3>
+</RadzenAlert>
+    }
+
+
+
+@if (selectedAlimento?.Any() == true)
+{
+
+    <div>
+    <RadzenCard>
+        <div style="display: inline-block;">    
+        <RadzenLabel>
+                    <h4>Quantidade em gramas:</h4>
+        </RadzenLabel>
+        </div>
+        <div style="display: inline-block;">
+        
+
+            <RadzenTextBox Change=@(args => @quantidade = ConverteQuantidade(args.ToString()) ) class="w-100" />
+          </div>  
+          
+          <div style="display: inline-block;">
+                <RadzenButton Click=@(args => AddAlimento(ConversaoNumeros(selectedAlimento[0],quantidade),quantidade,refeicaoSelecionada-1)) Text="Adcionar" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Secondary" />
+            </div>
+            <style> .elemento {
+                   margin-left: 50px; 
+                   }
+
+            </style>
+            <div style="display: inline-block;" class="elemento">
+                <RadzenText TextStyle="TextStyle.Subtitle2"  TagName="TagName.H3">Ex: 100,5</RadzenText>
+                </div>
+    </RadzenCard >
+    <p></p>
+        <RadzenCard>
+         <div style="display: inline-block;">
+<RadzenRadzenLabel><h5 style=" text-align: center;">Quantidade de Refeições</h5></RadzenRadzenLabel>
+        </div>
+            <div style="display: inline-block;">
+    <RadzenNumeric TValue="int" Min="1" Max="10" class="w-25" @bind-Value=@numeroDeRefeicoes />
+    </div>
+
+
+        <div style="display: inline-block;">
+
+            <RadzenRadzenLabel><h5 style=" text-align: center;">Selecionar Refeição</h5></RadzenRadzenLabel>
+        </div>
+
+        <div style="display: inline-block;">
+            <RadzenNumeric TValue ="int" Min="1" Max="10" class="w-25" @bind-Value=@refeicaoSelecionada />
+            </div>
+        </RadzenCard>
+
+    </div>
+
+}
+@if (selectedAlimentoBusca?.Any() == true)
+{
+
+     <div>
+    <RadzenCard>
+        <div style="display: inline-block;">    
+        <RadzenLabel>
+                    <h4>Quantidade em gramas:</h4>
+        </RadzenLabel>
+        </div>
+        <div style="display: inline-block;">
+        
+
+            <RadzenTextBox Change=@(args => @quantidade = ConverteQuantidade(args.ToString()) ) class="w-100" />
+          </div>  
+          
+          <div style="display: inline-block;">
+            <RadzenButton Click=@(args => AddAlimento(ConversaoNumeros(selectedAlimentoBusca[0],quantidade),quantidade,refeicaoSelecionada-1)) Text="Adcionar" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Secondary" />
+            </div>
+            <style> .elemento {
+                   margin-left: 50px; 
+                   }
+
+            </style>
+            <div style="display: inline-block;" class="elemento">
+                <RadzenText TextStyle="TextStyle.Subtitle2"  TagName="TagName.H3">Ex: 100,5</RadzenText>
+                </div>
+    </RadzenCard >
+    <p></p>
+        <RadzenCard>
+         <div style="display: inline-block;">
+<RadzenRadzenLabel><h4 style=" text-align: center;">Quantidade de Refeições</h4></RadzenRadzenLabel>
+        </div>
+            <div style="display: inline-block;">
+    <RadzenNumeric TValue="int" Min="1" Max="10" class="w-25" @bind-Value=@numeroDeRefeicoes />
+    </div>
+
+
+        <div style="display: inline-block;">
+
+            <RadzenRadzenLabel><h5 style=" text-align: center;">Selecionar Refeição</h5></RadzenRadzenLabel>
+        </div>
+
+        <div style="display: inline-block;">
+            <RadzenNumeric TValue ="int" Min="1" Max="10" class="w-25" @bind-Value=@refeicaoSelecionada />
+            </div>
+        </RadzenCard>
+
+    </div>
+
+}
+        
+
+@if (cardapioTotal.Count > 0 && cardapioTotal[refeicaoSelecionada - 1] != null)
+{
+
+
+    <RadzenDataGrid @ref="ordersGrid" Data="@cardapioTotal[refeicaoSelecionada-1]" TItem="Alimentos" AllowFiltering="true" AllowPaging="true" AllowAlternatingRows="false" EditMode="DataGridEditMode.Single"
+                    RowUpdate="@OnUpdateRow"
+                    PageSize="10"
+                    SelectionMode="DataGridSelectionMode.Single"
+                    @bind-Value=@selectedAlimentoUser
+                    
+                    RowSelect="@(args=> pedido=args)">
+        <EmptyTemplate>
+            <p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">Nenhum alimento adcionado</p>
+        </EmptyTemplate>
+        <HeaderTemplate >
+ 
+            <h3>Refeição @refeicaoSelecionada</h3>
+        </HeaderTemplate>
+        <Columns>
+                   
+            <RadzenDataGridColumn TItem="Alimentos" Property="Alimento" Title="Alimento" Width="20px"  >
+            <EditTemplate Context="order">
+                <RadzenDropDown @bind-Value="order.Alimento" Data="@cardapio" TextProperty="Alimento" ValueProperty="Alimento" Style="width:100%; display: block;" />
+            </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="Alimentos" Property="Quantidade" Title="Quantidade" Width="8px" >
+                <EditTemplate Context="order">
+                    <RadzenNumeric @bind-Value="order.Quantidade" Style="width:100%" />
+                
+                </EditTemplate>
+            </RadzenDataGridColumn>
+
+            <RadzenDataGridColumn TItem="Alimentos" Property="Carboidrato" Title="Carboidrato" Width="8px">
+            
+            </RadzenDataGridColumn>
+            
+            <RadzenDataGridColumn TItem="Alimentos" Property="Proteina" Title="Proteina" Width="8px">
+            
+            </RadzenDataGridColumn>
+            
+            
+            <RadzenDataGridColumn TItem="Alimentos" Property="Lipidio" Title="Gordura" Width="8px" >
+           
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="Alimentos" Property="Kcal" Title="Kcal" Width="8px" >
+            </RadzenDataGridColumn>
+           
+           
+                <RadzenDataGridColumn TItem="Alimentos" Context="order" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Frozen="true" FrozenPosition="FrozenColumnPosition.Right" Width="3.5px">
+                    <Template Context="order">
+                        <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(args => EditRow(order))" >
+                        </RadzenButton>
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Darker" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@(args => DelAlimento(order))">
+                        </RadzenButton>
+                    </Template>
+
+                    <EditTemplate Context="order">
+
+                        <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Success" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@((args) => SaveRow(order))">
+                        </RadzenButton>
+                        <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@((args) => CancelEdit(order))">
+                        </RadzenButton>
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1">
+                        </RadzenButton>
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+            
+            
+            
+             
+
+        </Columns>
+    </RadzenDataGrid>
+
+
+    if (selectedAlimentoUser?.Any() == true)
+    {
+       
+        
+        <RadzenButton Click=@(args => DelAlimento(selectedAlimentoUser[0])) Text="Deletar" ButtonStyle="ButtonStyle.Danger" />
+    }
+}
+
+<RadzenDataList AllowVirtualization=@allowVirtualization Style="@(allowVirtualization ? "height:400px;overflow:auto;" : "")"
+                WrapItems="@(!allowVirtualization)" AllowPaging="@(!allowVirtualization)"
+                Data="@totalMacroRefeicao[refeicaoSelecionada - 1]" TItem="Alimentos" PageSize="5" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true">
+    <Template Context="macroRefeicao">
+        <RadzenCard Style="width: 100%; padding: 0;">
+            <RadzenRow Gap="0">
+                <RadzenColumn Size="12" SizeLG="3" Class="rz-p-4 product-title">
+                    <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-secondary">Total Refeição @refeicaoSelecionada</RadzenText>
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeLG="7" Class="rz-p-4">
+                    <RadzenRow Gap="0">
+                            <RadzenColumn Size="12" SizeMD="3" SizeLG="2">
+                                <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" Class="rz-mb-0">Carboidrato</RadzenText>
+                                <RadzenText TextStyle="TextStyle.Body2">@(macroRefeicao.Carboidrato)</RadzenText>
+                            </RadzenColumn>
+                        <RadzenColumn Size="12" SizeMD="6" SizeLG="2">
+                            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" Class="rz-mb-0">Proteína</RadzenText>
+                            <RadzenText TextStyle="TextStyle.Body2">@(macroRefeicao.Proteina)</RadzenText>
+                        </RadzenColumn>
+                        <RadzenColumn Size="12" SizeMD="6" SizeLG="2">
+                            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" Class="rz-mb-0">Lipídio</RadzenText>
+                            <RadzenText TextStyle="TextStyle.Body2">@(macroRefeicao.Lipidio)</RadzenText>
+                        </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="6" SizeLG="2">
+                                <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" Class="rz-mb-0">Fibra</RadzenText>
+                                <RadzenText TextStyle="TextStyle.Body2">@(macroRefeicao.Fibra)</RadzenText>
+                            </RadzenColumn>
+                        <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
+                            <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" Class="rz-mb-0">Kcal</RadzenText>
+                            <RadzenText TextStyle="TextStyle.Body2">@(macroRefeicao.Kcal)</RadzenText>
+                        </RadzenColumn>
+                        
+                    </RadzenRow>
+                </RadzenColumn>
+               
+            </RadzenRow>
+        </RadzenCard>
+    </Template>
+</RadzenDataList>
+
+
+    <RadzenDataList AllowVirtualization=@allowVirtualization Style="background-color:mediumslateblue"
+                    WrapItems="@(!allowVirtualization)" AllowPaging="@(!allowVirtualization)"
+                    Data="@totalMacroGeral[0]" TItem="Alimentos" PageSize="5" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true">
+        <Template Context="macroRefeicao">
+            <RadzenCard Style="width: 100%; padding: 0;">
+                <RadzenRow Gap="0">
+                    <RadzenColumn Size="12" SizeLG="3" Class="rz-p-4">
+                        <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="rz-color-secondary">Resultado Total</RadzenText>
+                    </RadzenColumn>
+                    <RadzenColumn Size="12" SizeLG="7" Class="rz-p-4 product-title">
+                        <RadzenRow Gap="0">
+                            <RadzenColumn Size="12" SizeMD="3" SizeLG="2">
+                                <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" Class="rz-mb-0">Carboidrato</RadzenText>
+                                <RadzenText TextStyle="TextStyle.Body2">@(macroRefeicao.Carboidrato)</RadzenText>
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="6" SizeLG="2">
+                                <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" Class="rz-mb-0">Proteína</RadzenText>
+                                <RadzenText TextStyle="TextStyle.Body2">@(macroRefeicao.Proteina)</RadzenText>
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="6" SizeLG="2">
+                                <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" Class="rz-mb-0">Lipídio</RadzenText>
+                                <RadzenText TextStyle="TextStyle.Body2">@(macroRefeicao.Lipidio)</RadzenText>
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="6" SizeLG="2">
+                                <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" Class="rz-mb-0">Fibra</RadzenText>
+                                <RadzenText TextStyle="TextStyle.Body2">@(macroRefeicao.Fibra)</RadzenText>
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
+                                <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" Class="rz-mb-0">Kcal</RadzenText>
+                                <RadzenText TextStyle="TextStyle.Body2">@(macroRefeicao.Kcal)</RadzenText>
+                            </RadzenColumn>
+
+                        </RadzenRow>
+                    </RadzenColumn>
+
+                </RadzenRow>
+            </RadzenCard>
+        </Template>
+    </RadzenDataList>
+
+
+<style>
+    .product-title {
+        min-height: 72px;
+        background-color: var(--rz-secondary-lighter);
+    }
+
+    .price-badge {
+        font-size: 16px;
+        font-weight: bold;
+        line-height: 20px;
+        padding: 8px;
+    }
+</style>
+
+    
+
+
+    @code {
+    bool allowVirtualization;
+    bool mostrarDataBusca = false;
+
+
+    int cont = 1;
+    bool ligado = false;
+
+    bool mensagemErro = false;
+
+    new Alimentos alimentoConvertido = new Alimentos();
+    List<Alimentos> novoAlimentoLista = new List<Alimentos>();
+
+    int refeicaoSelecionada = 1;
+    int numeroDeRefeicoes = 1;
+
+    bool busca = false;
+    string? buscaAlimento = " ";
+    double quantidade;
+
+    IList<Alimentos>? selectedAlimento;
+    IList<Alimentos>? selectedAlimentoUser;
+    IList<Alimentos>? selectedAlimentoBusca;
+
+    IEnumerable<Alimentos>? cardapio;
+    IEnumerable<Alimentos>? cardapio2;
+
+    List<IEnumerable<Alimentos>> totalMacroRefeicao = new List<IEnumerable<Alimentos>>();
+    List<IEnumerable<Alimentos>> totalMacroGeral = new List<IEnumerable<Alimentos>>();
+
+    Dictionary<int, List<Alimentos>> totalAlimentosDict = new Dictionary<int, List<Alimentos>>();
+
+    Alimentos cardapioContablizadoRefeicao = new Alimentos();
+
+
+    List<Alimentos>? cardapioUser;
+
+    Alimentos pedido = new Alimentos();
+
+    List<IEnumerable<Alimentos>> cardapioTotal = new List<IEnumerable<Alimentos>>();
+
+    private List<IEnumerable<Alimentos>> CriarListas()
+    {
+        for(int i =0; i < 10; i++)
+        {
+
+            cardapioTotal.Add(new List<Alimentos>());
+            totalMacroRefeicao.Add(new List<Alimentos>());
+        }
+        totalMacroGeral.Add(new List<Alimentos>());
+        return cardapioTotal;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        CriarListas();
+
+        cardapio = await Task.Run(() => alimentoService.ObterAlimentos());
+    }
+
+
+
+    private IEnumerable<Alimentos> CalculoTotalizado()
+    {
+
+        Alimentos alimentoNovo = new Alimentos()
+            {
+                Alimento = "Total",
+                Fibra = 0,
+                Carboidrato = 0,
+                Kcal = 0,
+                Lipidio = 0,
+                Proteina = 0
+
+            };
+        var listaTotalDeMacros = new List<Alimentos>();
+        for(int i = 0; i < 10; i++)
+        {
+            foreach(var item in totalMacroRefeicao[i])
+            {
+                alimentoNovo.Carboidrato += item.Carboidrato;
+                alimentoNovo.Proteina += item.Proteina;
+                alimentoNovo.Lipidio += item.Lipidio;
+                alimentoNovo.Fibra += item.Fibra;
+                alimentoNovo.Kcal += item.Kcal;
+            }
+
+        }
+        foreach (var item in totalMacroRefeicao[0])
+        {
+            alimentoNovo.Carboidrato = Math.Round(alimentoNovo.Carboidrato, 2);
+            alimentoNovo.Proteina = Math.Round(alimentoNovo.Proteina, 2);
+            alimentoNovo.Lipidio = Math.Round(alimentoNovo.Lipidio, 2);
+            alimentoNovo.Fibra = Math.Round(alimentoNovo.Fibra, 2);
+            alimentoNovo.Kcal = Math.Round(alimentoNovo.Kcal, 2);
+        }
+
+        listaTotalDeMacros.Add(alimentoNovo);
+        totalMacroGeral[0] = new List<Alimentos>();
+        totalMacroGeral[0] = listaTotalDeMacros;
+        return totalMacroGeral[0];
+
+    }
+
+    private IEnumerable<Alimentos> AtualizaCalculo()
+    {
+        Alimentos total = new Alimentos();
+        var listaTotal = new List<Alimentos>();
+        foreach(var item in cardapioTotal[refeicaoSelecionada - 1])
+        {
+            total.Fibra += item.Fibra;
+            total.Carboidrato += item.Carboidrato;
+            total.Kcal += item.Kcal;
+            total.Proteina += item.Proteina;
+            total.Lipidio += item.Lipidio;
+        }
+        total.Fibra = Math.Round(total.Fibra, 2);
+        total.Carboidrato = Math.Round(total.Carboidrato, 2);
+        total.Proteina = Math.Round(total.Proteina, 2);
+        total.Lipidio = Math.Round(total.Lipidio, 2);      
+        total.Kcal = Math.Round(total.Kcal, 2);
+
+        listaTotal.Add(total);
+        return totalMacroRefeicao[refeicaoSelecionada - 1] = listaTotal;
+
+    }
+
+    private IEnumerable<Alimentos> Calculo(Alimentos alimento, bool instrucao)
+    {
+
+        if(totalMacroRefeicao[refeicaoSelecionada -1].Any() == false)
+        {
+            var novoTotal = new List<Alimentos>();
+            Alimentos alimentoNovo = new Alimentos()
+            {
+                Alimento = $"Total {refeicaoSelecionada - 1}",
+                Fibra = alimento.Fibra,
+                Carboidrato = alimento.Carboidrato,
+                Kcal = alimento.Kcal,
+                Lipidio = alimento.Lipidio,
+                Quantidade =alimento.Quantidade,
+                Proteina = alimento.Proteina
+
+                };
+
+            novoTotal.Add(alimentoNovo);
+            totalMacroRefeicao[refeicaoSelecionada - 1] = novoTotal;
+
+            return totalMacroRefeicao[refeicaoSelecionada - 1];
+        }
+        else if(instrucao == true )
+        {
+            foreach (var item in totalMacroRefeicao[refeicaoSelecionada - 1])
+            {
+                item.Carboidrato += alimento.Carboidrato;
+                item.Proteina += alimento.Proteina;
+                item.Lipidio += alimento.Lipidio;
+                item.Fibra += alimento.Fibra;
+                item.Kcal += alimento.Kcal;
+            }
+            foreach (var item in totalMacroRefeicao[refeicaoSelecionada - 1])
+            {
+                item.Carboidrato = Math.Round(item.Carboidrato, 2);
+                item.Proteina = Math.Round(item.Proteina, 2);
+                item.Fibra = Math.Round(item.Fibra, 2);
+                item.Kcal = Math.Round(item.Kcal, 2);
+                item.Lipidio = Math.Round(item.Lipidio, 2);
+            }
+            return totalMacroRefeicao[refeicaoSelecionada - 1];
+        }
+        else
+        {
+            foreach (var item in totalMacroRefeicao[refeicaoSelecionada - 1])
+            {
+                item.Carboidrato -= alimento.Carboidrato;
+                item.Proteina -= alimento.Proteina;
+                item.Lipidio -= alimento.Lipidio;
+                item.Fibra -= alimento.Fibra;
+                item.Kcal -= alimento.Kcal;
+            }
+            foreach (var item in totalMacroRefeicao[refeicaoSelecionada - 1])
+            {
+                item.Carboidrato = Math.Round(item.Carboidrato, 2);
+                item.Proteina = Math.Round(item.Proteina, 2);               
+                item.Fibra = Math.Round(item.Fibra, 2);
+                item.Kcal = Math.Round(item.Kcal, 2);
+                item.Lipidio = Math.Round(item.Lipidio, 2);
+            }
+            return totalMacroRefeicao[refeicaoSelecionada - 1];
+        }
+
+    }
+    List<Alimentos> listaFood = new List<Alimentos>();
+    private async Task AddAlimentosDicionario(Alimentos alimento, double quantidade, int refeicao)
+    {
+
+        alimento.Quantidade = quantidade;
+
+        listaFood.Add(alimento);
+        totalAlimentosDict.Add(refeicao, listaFood);
+
+
+    }
+
+    private async Task AddAlimento(Alimentos alimento, double quantidade, int refeicao)
+    {
+        AddAlimentosDicionario(alimento, quantidade, refeicao);
+        if(quantidade != 37214982)
+        {
+            var novoAlimentoLista = new List<Alimentos>();
+
+            if (cardapioTotal.Count > 0 && cardapioTotal[refeicaoSelecionada - 1] != null)
+            {
+                foreach (var item in cardapioTotal[refeicaoSelecionada - 1])
+                {
+                    novoAlimentoLista.Add(item);
+                }
+            }
+            if(quantidade == 0)
+            {
+                quantidade = 100;
+            }
+
+
+            Alimentos alimentoNovo = new Alimentos()
+                {
+                    Alimento = alimento.Alimento,
+                    Fibra = alimento.Fibra,
+                    Carboidrato = alimento.Carboidrato,
+                    Kcal = alimento.Kcal,
+                    Lipidio = alimento.Lipidio,
+                    Preparo = alimento.Preparo,
+                    Quantidade = quantidade,
+                    Proteina = alimento.Proteina
+
+                };
+
+
+            novoAlimentoLista.Add(alimentoNovo);
+           
+            Calculo(alimentoNovo, true);
+            CalculoTotalizado();
+
+            if (cardapioTotal.Count > 0 && cardapioTotal[refeicaoSelecionada - 1] != null)
+            {
+                cardapioTotal[refeicao] = novoAlimentoLista;
+            }
+            else
+            {
+                cardapioTotal.Add(novoAlimentoLista);
+            }
+            cardapioTotal.Add(new List<Alimentos>());
+        }
+        quantidade = 0;
+
+
+    }
+    private async Task DelAlimento(Alimentos alimento)
+    {
+        var novoAlimentoLista = new List<Alimentos>();
+        foreach (var item in cardapioTotal[refeicaoSelecionada - 1])
+        {
+            novoAlimentoLista.Add(item);
+
+        }
+        novoAlimentoLista.Remove(alimento);
+        cardapioTotal[refeicaoSelecionada - 1] = novoAlimentoLista;
+        Calculo(alimento, false);
+        CalculoTotalizado();
+       
+    }
+
+    public void OnChange(double value)
+    {
+        quantidade = value;
+
+    }
+    public string Buscar(string value)
+    {
+
+        busca = true;
+        return value;
+    }
+    public string OnBuscaAlimento(string value)
+    {
+        return value;
+    }
+
+
+    private async Task BuscarAlimento(string alimento)
+    {
+        if (alimento != "")
+        {
+            var novoAlimentoLista = new List<Alimentos>();
+            List<string> nomeAlimentos = new List<string>();
+            string primeiraLetraMaiuscula = alimento.First().ToString().ToUpper() + alimento.Substring(1);
+
+            foreach (var nome in cardapio)
+            {
+                nomeAlimentos.Add(nome.Alimento);
+            }
+
+            var palavraTrecho = nomeAlimentos.Where(palavra => palavra.ToString().Contains(primeiraLetraMaiuscula))
+                       .ToList();
+
+
+            foreach (var nomeAlimento in cardapio)
+            {
+                foreach (var palavra in palavraTrecho)
+                {
+                    if (palavra == nomeAlimento.Alimento)
+                    {
+                       
+                        Alimentos alimentoNovo = new Alimentos()
+                            {
+                                Alimento = nomeAlimento.Alimento,
+                                Fibra = nomeAlimento.Fibra,
+                                Carboidrato = nomeAlimento.Carboidrato,
+                                Kcal = nomeAlimento.Kcal,
+                                Lipidio = nomeAlimento.Lipidio,
+                                Preparo = nomeAlimento.Preparo,
+                                Quantidade = nomeAlimento.Quantidade,
+                                Proteina = nomeAlimento.Proteina
+
+                            };
+                        novoAlimentoLista.Add(alimentoNovo);
+                    }
+                }
+            }
+
+            cardapio2 = await Task.Run(() => novoAlimentoLista);
+
+            mostrarDataBusca = true;
+        }
+
+        else
+        {
+            mostrarDataBusca = false;
+            cardapio2 = null;
+        }
+    }
+
+    private Alimentos ConversaoNumeros(Alimentos alimento,double quantidade)
+    {
+        if(quantidade == 0) 
+        {
+            quantidade = 100;
+        }
+
+        Alimentos alimentoConvertido = new Alimentos()
+            {
+                Alimento = alimento.Alimento,
+                Preparo = alimento.Preparo,
+                Quantidade = quantidade,
+                Proteina = (alimento.Proteina * quantidade) / 100,
+                Carboidrato = (alimento.Carboidrato * quantidade) / 100,
+                Lipidio = (alimento.Lipidio * quantidade) / 100,
+                Fibra = (alimento.Fibra * quantidade) / 100,
+                Kcal = (alimento.Kcal * quantidade) /100
+            };
+        return alimentoConvertido;
+    }
+    private double ConverteQuantidade(string qtd)
+    {
+
+        try{
+
+            quantidade = double.Parse(qtd);
+            if(quantidade == 0)
+            {
+                return 100;
+            }
+            return quantidade;
+        }
+
+        catch
+        {
+
+            mensagemErro = true;
+
+
+            quantidade = 37214982;
+            return quantidade;
+
+        }
+    }
+
+
+    RadzenDataGrid<Alimentos> ordersGrid;
+
+    Alimentos orderToUpdate;
+    Alimentos orderToInsert;
+    Alimentos alimentoAntesAletracao;
+
+    void Reset()
+    {
+        orderToInsert = null;
+        orderToUpdate = null;
+    }
+
+    async Task EditRow(Alimentos order)
+ 
+    {
+        Alimentos alimentoAntesAletracao = new Alimentos()
+            {
+                Alimento = selectedAlimentoUser[0].Alimento
+
+            };
+        orderToUpdate = order;
+
+        await ordersGrid.EditRow(order);
+
+
+    }
+
+    void OnUpdateRow(Alimentos order)
+    {
+        Reset();
+
+
+    }
+
+    async Task SaveRow(Alimentos order)
+    {
+
+
+        List<Alimentos> listaAlterada = new List<Alimentos>();
+
+
+        foreach (var item in cardapioTotal[refeicaoSelecionada - 1])
+        {
+            if (item.Alimento == selectedAlimentoUser?[0].Alimento)
+            {
+                foreach(var i in cardapio)
+                {
+                    
+                    if(i.Alimento == order.Alimento )
+                    {
+                        Alimentos a = new Alimentos()
+                            {
+
+                                Alimento = i.Alimento,
+
+                                Carboidrato = Math.Round((i.Carboidrato * order.Quantidade) / 100, 2),
+
+                                Proteina = Math.Round((i.Proteina * order.Quantidade) / 100, 2),
+                                Lipidio = Math.Round((i.Lipidio * order.Quantidade) / 100, 2),
+                                Fibra = Math.Round((i.Fibra * order.Quantidade) / 100, 2),
+                                Quantidade = order.Quantidade,
+                                Preparo = i.Preparo,
+                                Kcal = Math.Round((i.Kcal * order.Quantidade) / 100, 2)
+
+
+                            };
+                        listaAlterada.Add(a);
+                    }
+                }
+
+            }
+
+
+            else
+            {
+                listaAlterada.Add(item);
+            }
+        }
+
+
+        cardapioTotal[refeicaoSelecionada - 1] = listaAlterada;
+
+        AtualizaCalculo();
+        CalculoTotalizado();
+
+
+
+    }
+
+    void CancelEdit(Alimentos order)
+
+    {
+
+        order.Alimento = alimentoAntesAletracao.Alimento;
+        ordersGrid.CancelEditRow(order);
+        ordersGrid.Reload();
+        
+        
+    }
+
+}

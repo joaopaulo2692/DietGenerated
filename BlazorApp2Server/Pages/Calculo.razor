@@ -1,0 +1,136 @@
+﻿@* @page "/calculo" *@
+
+<p></p>
+<RadzenText TextStyle="TextStyle.DisplayH3" TextAlign="TextAlign.Center" > Anamnese</RadzenText>
+<div Class="rz-p-0 rz-p-md-5">
+  @*   <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0.5rem" Class="rz-p-4 rz-mb-6 rz-border-radius-1" Style="border: var(--rz-grid-cell-border);">
+        <RadzenLabel Text="Variant:" />
+        <RadzenSelectBar @bind-Value="@variant" TextProperty="Text" ValueProperty="Value" Data="@(Enum.GetValues(typeof(Variant)).Cast<Variant>().Select(t => new { Text = $"{t}", Value = t }))" Size="ButtonSize.Small" Class="rz-display-none rz-display-xl-flex" />
+        <RadzenDropDown @bind-Value="@variant" TextProperty="Text" ValueProperty="Value" Data="@(Enum.GetValues(typeof(Variant)).Cast<Variant>().Select(t => new { Text = $"{t}", Value = t }))" Class="rz-display-inline-flex rz-display-xl-none" />
+    </RadzenStack> *@
+    <RadzenRow Gap="1rem">
+        <RadzenColumn Size="12" SizeSM="6" >
+            
+            
+            
+            <RadzenStack>
+                <RadzenFormField Text="Nome Completo" Variant="@variant">
+                    <RadzenTextBox @bind-Value="@value" />
+                </RadzenFormField>
+                <RadzenFormField Text="Sexo" Variant="@variant">
+                    <RadzenDropDown Data=@sexo @bind-Value="@dropDownSexo" />
+                </RadzenFormField>
+                <RadzenFormField Text="Idade" Variant="@variant">
+                    <RadzenNumeric @bind-Value="@intIdade" Max="100" Min="1" />
+                </RadzenFormField>
+                <RadzenFormField Text="Altura em cm" Variant="@variant" Max="250" Min="50">
+                    <RadzenNumeric @bind-Value="@intAltura" Step="0.1" />
+                </RadzenFormField>
+                <RadzenFormField TValue="float" Format="#.00" Text="Peso" Variant="@variant" Max="250" Min="50" >
+                    <RadzenNumeric @bind-Value="@floatPeso" Step="0.1"/>
+                </RadzenFormField>
+                <RadzenFormField Text="Tipo de dieta" Variant="@variant">
+                    <RadzenDropDown Data=@objetivo @bind-Value="@dropDownObjetivo" />
+                </RadzenFormField>
+                @* <RadzenFormField Text="RadzenPassword" Variant="@variant">
+                    <RadzenPassword @bind-Value="@value" />
+                </RadzenFormField> *@
+
+                @* <RadzenFormField Text="RadzenDropDown" Variant="@variant">
+                    <RadzenDropDown Data=@companyNames @bind-Value="@dropDownValue" />
+                </RadzenFormField> *@
+               @*  <RadzenFormField Text="RadzenDropDownDataGrid" Variant="@variant">
+                    <RadzenDropDownDataGrid Data=@companyNames @bind-Value="@dropDownDataGridValue" />
+                </RadzenFormField> *@
+            </RadzenStack>
+            
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeSM="6">
+            <RadzenStack>
+               @*  <RadzenFormField Text="RadzenAutoComplete" Variant="@variant">
+                    <RadzenAutoComplete Data=@companyNames @bind-Value="@autoCompleteValue" />
+                </RadzenFormField> *@
+               @*  <RadzenFormField Text="RadzenColorPicker" Variant="@variant">
+                    <RadzenColorPicker @bind-Value="@color" />
+                </RadzenFormField> *@
+                <RadzenFormField Text="Informações adcionais" Variant="@variant" >
+                    <RadzenTextArea Rows="5"  @bind-Value="@value" />
+                </RadzenFormField>
+                <RadzenFormField Text="Atividade Física" Variant="@variant">
+                    <RadzenRadioButtonList @bind-Value=@radioButtonValue TValue="int" class="col-lg-9 rz-m-6 rz-mt-9">
+                        
+                        <Items >      
+                            <RadzenRadioButtonListItem Text="Sedentário (pouco ou nenhum exercício)" Value="1" />
+                            <RadzenRadioButtonListItem Text="Levemente ativo (exercício leve 1-3 dias por semana)" Value="2" />
+                            <RadzenRadioButtonListItem Text="Moderadamente ativo (exercício moderado 3-5 dias por semana)" Value="3" />
+                            <RadzenRadioButtonListItem Text="Muito ativo (exercício intenso 6-7 dias por semana)" Value="4" />
+                            <RadzenRadioButtonListItem Text="Extremamente ativo (exercício intenso ou atividade física extenuante 2x/dia)" Value="5" />
+                        </Items>
+                    </RadzenRadioButtonList>
+                </RadzenFormField>
+                <RadzenButton IsBusy=busy Click=@OnBusyClick ButtonStyle="ButtonStyle.Secondary" Text="Enviar Informações"></RadzenButton>
+            </RadzenStack>
+            
+        </RadzenColumn>
+    </RadzenRow>
+
+    
+    
+</div>
+
+@code {
+
+
+    Variant variant = Variant.Outlined;
+
+    string value = "";
+    int intIdade;
+    int intAltura;
+    float floatPeso;
+    int radioButtonValue = 1;
+    string dropDownSexo = "";
+    string dropDownObjetivo = "";
+
+    // IEnumerable<string> companyNames;
+    IEnumerable<string> sexo;
+    IEnumerable<string> objetivo;
+
+    public void Lista()
+    {
+        var sexos = new List<string>()
+        {
+            "Masculino",
+            "Feminino"
+        };
+        sexo = sexos;
+        // return sexo;
+
+        var objetivos = new List<string>()
+        {
+            "Normocalórica",
+            "Hipercalórica",
+            "Déficit calórica"
+
+        };
+        objetivo = objetivos;
+    }
+
+
+    bool busy;
+
+    async Task OnBusyClick()
+    {
+        busy = true;
+        await Task.Delay(2000);
+        busy = false;
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Lista();
+        await base.OnInitializedAsync();
+
+        
+    }
+}
