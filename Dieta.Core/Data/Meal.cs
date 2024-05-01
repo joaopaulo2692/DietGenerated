@@ -6,17 +6,17 @@ namespace Dieta.Core.Data
 {
     public class Meal
     {
-        public int RefeicaoId { get; set; }
-        public string NomeRefeicao { get; set; }
-        public TimeSpan Horario { get; set; }
+        public int MealId { get; set; }
+        public string NameMeal { get; set; }
+        public DateTime Date { get; set; }
         public int Ordenation { get; set; }
     
-        public virtual List<Diet> Dieta { get; set; }
+        public virtual List<Diet> Diets { get; set; }
 
 
         //public virtual List<Alimentos> Alimentos { get; set; }
 
         //alt
-        public virtual List<FoodsMeal> AlimentosRefeicoes { get; set; }
+        public virtual List<FoodsMeal> FoodsMeals { get; set; }
     }
 }

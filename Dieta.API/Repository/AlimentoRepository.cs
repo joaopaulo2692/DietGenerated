@@ -28,29 +28,30 @@ namespace Dieta.API.Repository
         public async Task<Result> AddFoodAsync(Food food, double amount, int ordenation)
         { 
             try{
-                Meal meal = await _db.Refeicoes.Where(x => x.RefeicaoId == ordenation).FirstOrDefaultAsync();
-                {
-                    if(meal == null)
-                    {
-                        Meal mealCreated = new Meal()
-                        {
-                            Ordenation = ordenation
-                        };
-                    }
-                }
+                Meal meal = new Meal();
+                meal = await _db.Refeicoes.Where(x => x.MealId == ordenation).FirstOrDefaultAsync();
+                //{
+                //    if(meal == null)
+                //    {
+                //        Meal mealCreated = new Meal()
+                //        {
+                //            Ordenation = ordenation
+                //        };
+                //    }
+                //}
 
                 meal.Ordenation = ordenation;
                 FoodsMeal alimentoRef = new FoodsMeal()
                 {
-                    Alimento = food,
-                    Refeicao = meal,
+                    Food = food,
+                    Meal = meal,
                     Ordenation = 1
                 };
-                meal.AlimentosRefeicoes.Add(alimentoRef);
+                meal.FoodsMeals.Add(alimentoRef);
                 Diet? diet = await _db.Dietas.FirstOrDefaultAsync();
                 diet.Meals.Add(meal);
                 Client? client = await _db.Clientes.FirstOrDefaultAsync();
-                client.Dieta.Add(diet);
+                client.Diets.Add(diet);
                 
 
 

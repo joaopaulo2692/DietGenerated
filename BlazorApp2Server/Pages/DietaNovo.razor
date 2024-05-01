@@ -31,14 +31,15 @@
                 <p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">Alimento não encontrado</p>
             </EmptyTemplate>
             <Columns>
-                <RadzenDataGridColumn TItem="Food" Property="Alimento" Title="Alimento" Width="20px" />
-                <RadzenDataGridColumn TItem="Food" Property="Carboidrato" Title="Carboidrato" Width="8px">
+                <RadzenDataGridColumn TItem="Food" Property="FoodName" Title="Alimento" Width="20px" />
+                <RadzenDataGridColumn TItem="Food" Property="Carb" Title="Carboidrato" Width="8px">
                 </RadzenDataGridColumn>
                @*  <RadzenDataGridColumn TItem="Alimentos" Property="Preparo" Title="Modo de Preparo" Width="8px" /> *@
-                <RadzenDataGridColumn TItem="Food" Property="Proteina" Title="Proteina" Width="8px">
+                <RadzenDataGridColumn TItem="Food" Property="Protein" Title="Proteina" Width="8px">
                 </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="Food" Property="Lipidio" Title="Gordura" Width="8px" />
+                <RadzenDataGridColumn TItem="Food" Property="Fat" Title="Gordura" Width="8px" />
                 <RadzenDataGridColumn TItem="Food" Property="Kcal" Title="Kcal" Width="8px" />
+                <RadzenDataGridColumn TItem="Food" Property="Fiber" Title="Fibra" Width="8px" />
 
             </Columns>
         </RadzenDataGrid>
@@ -117,8 +118,8 @@
     protected override async Task OnInitializedAsync()
     {
 
-        // List<Alimentos> listaAlimentos = await ObterAlimentos();
-        // Result result = await alimentosService.CreateListALimentos(listaAlimentos);
+         // List<Food> listaAlimentos = await StartListFood();
+         // Result result = await alimentosService.CreateListFoodAsync(listaAlimentos);
 
 
         alimentosLista = await alimentosService.GetAllAsync();
@@ -177,7 +178,7 @@
     //public List<Alimentos> Cardapio => cardapio;
 
     string filePath = @"C:\Users\joaop\Downloads\tab01.xls";
-    public async Task<List<Food>> ObterAlimentos()
+    public async Task<List<Food>> StartListFood()
     {
         try
         {

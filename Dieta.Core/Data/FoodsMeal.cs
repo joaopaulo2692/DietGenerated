@@ -11,12 +11,12 @@ namespace Dieta.Core.Data
     public class FoodsMeal
     {
         [Key]
-        public int AlimentosId { get; set; }
+        public int FoodId { get; set; }
         [Key]
-        public int RefeicaoId { get; set; }
+        public int MealId { get; set; }
         public int Ordenation { get; set; }
 
-        public virtual Food Alimento {get; set;}
-        public virtual Meal Refeicao {get; set;}
+        public virtual Food Food {get; set;}
+        public virtual Meal Meal {get; set;}
     }
 }

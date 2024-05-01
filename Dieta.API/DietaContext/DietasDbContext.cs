@@ -116,10 +116,10 @@ namespace Dieta.API.DietaContext
 
             modelBuilder.Entity<Diet>()
   .HasMany(x => x.Meals) // Dieta has many Refeicoes
-  .WithMany(x => x.Dieta);   // Refeicao has many Dietas (optional, depending on your needs)
+  .WithMany(x => x.Diets);   // Refeicao has many Dietas (optional, depending on your needs)
 
             modelBuilder.Entity<Client>()
-              .HasMany(c => c.Dieta)       
+              .HasMany(c => c.Diets)       
               .WithMany(d => d.Client)    
               .UsingEntity<Dictionary<string, object>>(  
                   "ClienteDiet",
@@ -136,18 +136,18 @@ namespace Dieta.API.DietaContext
               );
 
             modelBuilder.Entity<FoodsMeal>()  // Define AlimentosRefeicao entity
-              .HasKey(x => new { x.AlimentosId, x.RefeicaoId }); // Composite key
+              .HasKey(x => new { x.FoodId, x.MealId }); // Composite key
 
             modelBuilder.Entity<FoodsMeal>()
-              .HasOne(x => x.Alimento)
+              .HasOne(x => x.Food)
               .WithMany(x => x.FoodsMeals)
-              .HasForeignKey(x => x.AlimentosId);
+              .HasForeignKey(x => x.FoodId);
               
 
             modelBuilder.Entity<FoodsMeal>()
-              .HasOne(x => x.Refeicao)
-              .WithMany(x => x.AlimentosRefeicoes)
-              .HasForeignKey(x => x.RefeicaoId);
+              .HasOne(x => x.Meal)
+              .WithMany(x => x.FoodsMeals)
+              .HasForeignKey(x => x.MealId);
 
 
            
