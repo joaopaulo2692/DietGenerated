@@ -4,7 +4,7 @@
 @using System.Text.Json.Serialization
 @using FluentResults
 @using System.Globalization
-@using global::Dieta.API.Interfaces
+@using global::Dieta.Core.Interfaces
 @inject IHttpClientFactory ClientFactory
 @inject IFoodRepository alimentosService
 
@@ -13,6 +13,7 @@
 @using static System.Net.WebRequestMethods
 @using NPOI.SS.UserModel;
 @using NPOI.HSSF.UserModel;
+@using Dieta.Core.Interfaces.Repository;
 
 <h3>DietaNovo</h3>
 

@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Hosting.Server;
 using Blazor_MestreDetalhes.Service;
 using Blazor_MestreDetalhes.Pages;
 using Dieta.API.Repository;
-using Dieta.API.Interfaces;
 using Dieta.API.DietaContext;
 using Microsoft.EntityFrameworkCore;
+using Dieta.Core.Interfaces.Repository;
+using Dieta.Core.Data;
+using Microsoft.AspNetCore.Identity;
 
 
 
@@ -20,9 +22,22 @@ builder.Services.AddScoped<AlimentoService>();
 builder.Services.AddHttpClient();
 builder.Services.AddDbContext<DietasDbContext>(opts => opts.UseSqlServer(builder.Configuration.GetConnectionString("dietaConnection")));
 
-builder.Services.AddScoped<IFoodRepository, AlimentoRepository>();
+
+builder.Services.AddIdentity<Client, IdentityRole>()
+    .AddEntityFrameworkStores<DietasDbContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.AddScoped<IUserClaimsPrincipalFactory<Client>, UserClaimsPrincipalFactory<Client, IdentityRole>>();
+//builder.Services.Configure<IdentityOptions>(options =>
+//{
+//    // Configurações de identidade, se necessário
+//});
+
+builder.Services.AddScoped<IFoodRepository, FoodRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<SignInManager<Client>>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddHttpClient<IFoodRepository, AlimentoRepository>(client =>
+builder.Services.AddHttpClient<IFoodRepository, FoodRepository>(client =>
 {
 
     client.BaseAddress = new Uri("https://localhost:44370");

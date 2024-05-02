@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Dieta.API.DietaContext;
-using Dieta.API.Interfaces;
 using Dieta.Core.Data;
+using Dieta.Core.Interfaces.Repository;
 using Dieta.Core.ViewObject;
 using FluentResults;
 using Microsoft.EntityFrameworkCore;
@@ -12,13 +12,13 @@ using System.Collections.Generic;
 
 namespace Dieta.API.Repository
 {
-    public class AlimentoRepository : IFoodRepository
+    public class FoodRepository : IFoodRepository
     {
         private readonly DietasDbContext _db;
         private readonly IMapper _mapper;
         private readonly HttpClient _httpClient;
 
-        public AlimentoRepository(DietasDbContext db, IMapper mapper, HttpClient httpClient)
+        public FoodRepository(DietasDbContext db, IMapper mapper, HttpClient httpClient)
         {
             _db = db;
             _mapper = mapper;

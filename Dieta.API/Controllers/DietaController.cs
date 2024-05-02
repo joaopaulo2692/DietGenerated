@@ -1,6 +1,5 @@
-﻿
-using Dieta.API.Interfaces;
-using Dieta.Core.Data;
+﻿using Dieta.Core.Data;
+using Dieta.Core.Interfaces.Repository;
 using Dieta.Core.ViewObject;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +10,7 @@ namespace Dieta.API.Controllers
     public class DietaController : ControllerBase
     {
         private readonly IFoodRepository _alimentoRepo;
+
 
         public DietaController(IFoodRepository alimentoRepo)
         {

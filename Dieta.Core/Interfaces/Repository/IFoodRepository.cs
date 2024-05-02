@@ -1,11 +1,9 @@
-﻿
-
-using Dieta.Core.Data;
+﻿using Dieta.Core.Data;
 using Dieta.Core.ViewObject;
 using FluentResults;
 using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 
-namespace Dieta.API.Interfaces
+namespace Dieta.Core.Interfaces.Repository
 {
     public interface IFoodRepository
     {
@@ -14,7 +12,7 @@ namespace Dieta.API.Interfaces
         public Task<IEnumerable<Food>> GetAll();
         public Task<IEnumerable<Food>> GetAllSavedAsync();
         public Food AmountConversion(Food food, double amount);
-            
+
         public Task<Result> CreateListFoodAsync(List<Food> food);
 
         public Task<Result> AddFoodAsync(Food food, double amount, int meal);

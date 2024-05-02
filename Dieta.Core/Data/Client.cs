@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dieta.Core.Data
 {
-    public class Client /*: IdentityUser<string>*/
+    public class Client : IdentityUser<string>
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

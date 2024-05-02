@@ -1,7 +1,8 @@
 using AutoMapper;
 using Dieta.API.DietaContext;
-using Dieta.API.Interfaces;
 using Dieta.API.Repository;
+using Dieta.Core.Data;
+using Dieta.Core.Interfaces.Repository;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,16 +15,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<DietasDbContext>(opts => opts.UseSqlServer(builder.Configuration.GetConnectionString("dietaConnection")));
 
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<DietasDbContext>();
-//static ServiceProvider RegistrarServices()
-//{
-//    var services = new ServiceCollection();
-//    services.AddSingleton<IAlimentoRepository, AlimentoRepository>();
-//    services.AddSingleton<IMapper, Mapper>();
-//    services.AddTransient<Controller>();
-//    return services.BuildServiceProvider();
-//}
+//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+//    .AddEntityFrameworkStores<DietasDbContext>();
+
 builder.Services.AddHttpClient();
 
 //builder.Services.AddHttpClient<IAlimentoRepository, AlimentoRepository>(client =>
@@ -31,8 +25,12 @@ builder.Services.AddHttpClient();
 //    client.BaseAddress = new Uri("https://localhost:44370");
 //    client.DefaultRequestHeaders.Add("Accept", "application/+json");
 //});
+builder.Services.AddIdentity<Client, IdentityRole>()
+    .AddEntityFrameworkStores<DietasDbContext>()
+    .AddSignInManager<SignInManager<Client>>();
 
-builder.Services.AddScoped<IFoodRepository,AlimentoRepository>();
+builder.Services.AddScoped<IFoodRepository,FoodRepository>();
+builder.Services.AddScoped<IUserRepository,UserRepository>();
 
 
 builder.Services.AddControllers();

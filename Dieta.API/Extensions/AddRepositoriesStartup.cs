@@ -1,5 +1,5 @@
-﻿using Dieta.API.Interfaces;
-using Dieta.API.Repository;
+﻿using Dieta.API.Repository;
+using Dieta.Core.Interfaces.Repository;
 
 namespace Dieta.API.Extensions
 {
@@ -7,7 +7,7 @@ namespace Dieta.API.Extensions
     {
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
-            services.AddSingleton<IFoodRepository, AlimentoRepository>();
+            services.AddSingleton<IFoodRepository, FoodRepository>();
 
             return services;
         }

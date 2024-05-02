@@ -2,7 +2,7 @@
 using Dieta.Core.ViewObject;
 using FluentResults;
 
-namespace Dieta.API.Interfaces
+namespace Dieta.Core.Interfaces.Service
 {
     public interface IFoodService
     {
