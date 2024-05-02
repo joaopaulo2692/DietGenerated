@@ -11,6 +11,9 @@ namespace Dieta.API.Profiles
             CreateMap<UserVO, Client>()
                 .ForMember(x => x.UserName, x => x.MapFrom(x => x.Username))
                 .ReverseMap();
+
+            CreateMap<LoginVO, Client>()
+                .ReverseMap();
         }
     }
 }
