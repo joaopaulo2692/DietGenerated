@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Dieta.API.DietaContext
+namespace Dieta.Infrastructure.DietaContext
 
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>

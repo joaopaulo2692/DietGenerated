@@ -1,8 +1,8 @@
 using AutoMapper;
-using Dieta.API.DietaContext;
-using Dieta.API.Repository;
 using Dieta.Core.Data;
 using Dieta.Core.Interfaces.Repository;
+using Dieta.Infrastructure.DietaContext;
+using Dieta.Infrastructure.Repository;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

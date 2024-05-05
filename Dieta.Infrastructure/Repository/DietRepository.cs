@@ -1,4 +1,4 @@
-﻿namespace Dieta.API.Repository
+﻿namespace Dieta.Infrastructure.Repository
 {
     public class DietRepository
     {

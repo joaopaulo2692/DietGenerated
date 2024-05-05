@@ -1,22 +1,21 @@
-﻿using Dieta.API.DietaContext;
-using Dieta.Core.Data;
+﻿using Dieta.Core.Data;
 using Dieta.Core.Interfaces.Repository;
+using Dieta.Infrastructure.DietaContext;
 using FluentResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace Dieta.API.Repository
+namespace Dieta.Infrastructure.Repository
 {
     public class UserRepository : IUserRepository
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ApplicationDbContext _db;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        public UserRepository(SignInManager<ApplicationUser> signInManager, ApplicationDbContext db, IHttpContextAccessor httpContextAccessor)
+
+        public UserRepository(SignInManager<ApplicationUser> signInManager, ApplicationDbContext db)
         {
             _signInManager = signInManager;
             _db = db;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<Result> CreateUser(ApplicationUser user)
@@ -95,9 +94,7 @@ namespace Dieta.API.Repository
 
         public Task<string> GetBearerTokenAsync()
         {
-            return Task.FromResult(_httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", ""));
-            
-            
+            throw new NotImplementedException();
         }
 
         public async Task<Result> SignInUser(ApplicationUser user, string password)

@@ -1,5 +1,6 @@
-﻿using Dieta.API.Repository;
+﻿
 using Dieta.Core.Interfaces.Repository;
+using Dieta.Infrastructure.Repository;
 
 namespace Dieta.API.Extensions
 {

@@ -1,7 +1,4 @@
 ﻿using AutoMapper;
-using Azure;
-using Dieta.API.DietaContext;
-using Dieta.API.Repository;
 using Dieta.Core.Data;
 using Dieta.Core.Interfaces.Repository;
 using Dieta.Core.ViewObject.Client;
@@ -52,7 +49,7 @@ namespace Dieta.API.Controllers
                 
                 ApplicationUser client = await _userRepo.FindByEmail(user.Email);
                 Result response = await _userRepo.SignInUser(client, user.Password);
-                var bearer = await _userRepo.GetBearerTokenAsync();
+              
                 if(response.IsFailed)
                 {
                     return StatusCode(StatusCodes.Status404NotFound, response);

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Dieta.API.DietaContext;
 using Dieta.Core.Data;
 using Dieta.Core.Interfaces.Repository;
 using Dieta.Core.ViewObject;
+using Dieta.Infrastructure.DietaContext;
 using FluentResults;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 
 
-namespace Dieta.API.Repository
+namespace Dieta.Infrastructure.Repository
 {
     public class FoodRepository : IFoodRepository
     {
@@ -122,10 +122,9 @@ namespace Dieta.API.Repository
             }
         }
 
-        public async Task<IEnumerable<Food>> GetAll()
+        public Task<IEnumerable<Food>> GetAll()
         {
-            var alunos = await _httpClient.GetFromJsonAsync<IEnumerable<Food>>("Dieta/GetAll");
-            return alunos;
+            throw new NotImplementedException();
         }
 
         public async Task<List<Food>> GetAllAsync()
