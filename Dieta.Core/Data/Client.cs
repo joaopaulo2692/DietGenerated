@@ -11,8 +11,8 @@ namespace Dieta.Core.Data
 
         //[Column("id")]
         //public override string Id { get; set; }
-        //[Column("username")]
-        //public override string UserName { get; set; }
+        [Column("username")]
+        public override string UserName { get; set; }
         //[Column("normalized_username")]
         //public override string NormalizedUserName { get; set; }
         //[Column("email")]

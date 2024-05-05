@@ -49,9 +49,10 @@ namespace Dieta.API.Controllers
         {
             try
             {
-                Client client = _mapper.Map<Client>(user);
+                //Client client = _mapper.Map<Client>(user);
+                Client client = await _userRepo.FindByName(user.UserName);
                 Result response = await _userRepo.SignInUser(client, user.Password);
-
+                var bearer = await _userRepo.GetBearerTokenAsync();
                 if(response.IsFailed)
                 {
                     return StatusCode(StatusCodes.Status404NotFound, response);
@@ -75,10 +76,19 @@ namespace Dieta.API.Controllers
 
         [HttpGet]
         [Route("GetById")]
-        public async Task<IActionResult> GetById(string id)
+        public async Task<IActionResult> GetById(string userName)
         {
-            Client client = await _userRepo.FindById(id);
+            Client client = await _userRepo.FindByName(userName);
             return StatusCode(StatusCodes.Status200OK, client);
         }
+
+        //[HttpPost]
+        //[Route("DeleteUser")]
+        //public async Task<IActionResult> DeleteUser()
+        //{
+
+        //}
+
+      
     }
 }

@@ -11,10 +11,12 @@ namespace Dieta.API.Repository
     {
         private readonly SignInManager<Client> _signInManager;
         private readonly DietasDbContext _db;
-public UserRepository(SignInManager<Client> signInManager, DietasDbContext db)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public UserRepository(SignInManager<Client> signInManager, DietasDbContext db, IHttpContextAccessor httpContextAccessor)
         {
             _signInManager = signInManager;
             _db = db;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<Result> CreateUser(Client user)
@@ -42,11 +44,11 @@ public UserRepository(SignInManager<Client> signInManager, DietasDbContext db)
             return clients;
         }
 
-        public async Task<Client> FindById(string id)
+        public async Task<Client> FindByName(string userName)
         {
             try
             {
-                Client clientDb = await _db.Clientes.Where(x => x.Id == id).FirstOrDefaultAsync();
+                Client clientDb = await _db.Clientes.Where(x => x.UserName == userName).FirstOrDefaultAsync();
 
                 return clientDb;
             }
@@ -56,6 +58,12 @@ public UserRepository(SignInManager<Client> signInManager, DietasDbContext db)
             }
         }
 
+        public Task<string> GetBearerTokenAsync()
+        {
+            return Task.FromResult(_httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", ""));
+            
+            
+        }
 
         public async Task<Result> SignInUser(Client user, string password)
         {
