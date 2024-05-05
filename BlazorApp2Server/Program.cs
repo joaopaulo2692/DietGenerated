@@ -36,7 +36,7 @@ builder.Services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, UserCla
 builder.Services.AddScoped<IFoodRepository, FoodRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<SignInManager<ApplicationUser>>();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddHttpClient<IFoodRepository, FoodRepository>(client =>
 {
 

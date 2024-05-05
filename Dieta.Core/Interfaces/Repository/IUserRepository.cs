@@ -14,7 +14,8 @@ namespace Dieta.Core.Interfaces.Repository
         public Task<Result> CreateUser(ApplicationUser client);
 
         public Task<Result> SignInUser(ApplicationUser user, string password);
-        public Task<ApplicationUser> FindByName(string id);
+        public Task<ApplicationUser> FindById(string id);
+        public Task<ApplicationUser> FindByEmail(string email);
         public Task<List<ApplicationUser>> FindAll();
         public Task<string> GetBearerTokenAsync();
     }

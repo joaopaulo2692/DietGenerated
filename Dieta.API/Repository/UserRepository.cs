@@ -24,6 +24,12 @@ namespace Dieta.API.Repository
             try
             {
                 user.Id = Guid.NewGuid().ToString();
+                user.CreatedAt = DateTime.Now;
+                user.UpdatedAt = DateTime.Now;
+                user.NormalizedUserName = user.Email.ToUpper();
+                user.NormalizedEmail = user.Email.ToUpper();
+                
+
                 IdentityResult resultCreateUser = await _signInManager
                                                             .UserManager
                                                             .CreateAsync(user, user.PasswordHash);
@@ -45,15 +51,41 @@ namespace Dieta.API.Repository
             return new List<ApplicationUser>();
         }
 
-        public async Task<ApplicationUser> FindByName(string userName)
+        public async Task<ApplicationUser> FindByEmail(string email)
         {
             try
             {
-                //ApplicationUser clientDb = await _db.Clientes.Where(x => x.UserName == userName).FirstOrDefaultAsync();
+                ApplicationUser? user = await _signInManager
+                                               .UserManager
+                                               .Users
+                                               .Where(x => x.DisabledAt == null &&
+                                                           x.Email == email)
+                                               .FirstOrDefaultAsync();
 
-                //return clientDb;
 
+                return user;
+
+            }
+            catch (Exception ex)
+            {
                 return new ApplicationUser();
+            }
+        }
+
+        public async Task<ApplicationUser> FindById(string id)
+        {
+            try
+            {
+                ApplicationUser? user = await _signInManager
+                                               .UserManager
+                                               .Users
+                                               .Where(x => x.DisabledAt == null &&
+                                                           x.Id == id)
+                                               .FirstOrDefaultAsync();
+
+
+                return user;
+            
             }
             catch(Exception ex)
             {

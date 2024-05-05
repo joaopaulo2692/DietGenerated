@@ -48,8 +48,14 @@ namespace Dieta.Core.Data
         public int TrainingFreq { get; set; }       
         public string? DietType { get; set; }
         public string? informationAdd { get; set; }
+        [Column("created_at")]
+        public DateTime CreatedAt { get; set; }
+        [Column("updated_at")]
+        public DateTime UpdatedAt { get; set; }
+        [Column("disabled_at")]
+        public DateTime? DisabledAt { get; set; }
 
-        public List<Diet>? Diets { get; set; }
+        public List<Diet>? Diets { get; set; } = new List<Diet>();
 
     }
 }

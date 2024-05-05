@@ -9,9 +9,9 @@ namespace Dieta.Core.ViewObject.Client
 {
     public class LoginVO
     {
-        public string? UserName { get; set; }
+        public string Email { get; set; }
 
         [Required(ErrorMessage = "Senha é obrigatória")]
-        public string? Password { get; set; }
+        public string Password { get; set; }
     }
 }

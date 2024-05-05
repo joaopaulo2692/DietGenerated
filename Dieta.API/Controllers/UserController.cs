@@ -50,7 +50,7 @@ namespace Dieta.API.Controllers
             try
             {
                 
-                ApplicationUser client = await _userRepo.FindByName(user.UserName);
+                ApplicationUser client = await _userRepo.FindByEmail(user.Email);
                 Result response = await _userRepo.SignInUser(client, user.Password);
                 var bearer = await _userRepo.GetBearerTokenAsync();
                 if(response.IsFailed)
@@ -76,9 +76,9 @@ namespace Dieta.API.Controllers
 
         [HttpGet]
         [Route("GetById")]
-        public async Task<IActionResult> GetById(string userName)
+        public async Task<IActionResult> GetById(string id)
         {
-            ApplicationUser client = await _userRepo.FindByName(userName);
+            ApplicationUser client = await _userRepo.FindById(id);
             return StatusCode(StatusCodes.Status200OK, client);
         }
 
