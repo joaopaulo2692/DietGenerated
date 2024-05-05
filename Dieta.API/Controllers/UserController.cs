@@ -32,7 +32,7 @@ namespace Dieta.API.Controllers
 
             try
             {
-                Client client = _mapper.Map<Client>(user);
+                ApplicationUser client = _mapper.Map<ApplicationUser>(user);
                 Result response = await _userRepo.CreateUser(client);
                 return StatusCode(StatusCodes.Status201Created, response);
 
@@ -49,8 +49,8 @@ namespace Dieta.API.Controllers
         {
             try
             {
-                //Client client = _mapper.Map<Client>(user);
-                Client client = await _userRepo.FindByName(user.UserName);
+                
+                ApplicationUser client = await _userRepo.FindByName(user.UserName);
                 Result response = await _userRepo.SignInUser(client, user.Password);
                 var bearer = await _userRepo.GetBearerTokenAsync();
                 if(response.IsFailed)
@@ -70,7 +70,7 @@ namespace Dieta.API.Controllers
         [Route("GetAll")]
         public async Task<IActionResult> GetAll()
         {
-            List<Client> clients= await _userRepo.FindAll();
+            List<ApplicationUser> clients= await _userRepo.FindAll();
             return StatusCode(StatusCodes.Status200OK, clients);
         }
 
@@ -78,7 +78,7 @@ namespace Dieta.API.Controllers
         [Route("GetById")]
         public async Task<IActionResult> GetById(string userName)
         {
-            Client client = await _userRepo.FindByName(userName);
+            ApplicationUser client = await _userRepo.FindByName(userName);
             return StatusCode(StatusCodes.Status200OK, client);
         }
 

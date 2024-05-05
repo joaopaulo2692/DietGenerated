@@ -1,23 +1,24 @@
 ﻿
 using Dieta.Core.Data;
 using Dieta.Core.ViewObject;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Dieta.API.DietaContext
 
 {
-    public class DietasDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
     {
-        public DbSet<Food> Alimentos { get; set; }
-        public DbSet<Diet> Dietas { get; set; }
-        public DbSet<Meal> Refeicoes { get; set; }
-        public DbSet<Client> Clientes { get; set; }
+        public DbSet<Food> Foods { get; set; }
+        public DbSet<Diet> Diets { get; set; }
+        public DbSet<Meal> Meals { get; set; }
+        //public DbSet<Client> Clientes { get; set; }
 
-        public DbSet<FoodsMeal> AlimentosRefeicao { get; set; }
+        public DbSet<FoodsMeal> FoodsMeal { get; set; }
 
 
-        public DietasDbContext(DbContextOptions options) : base(options)
+        public ApplicationDbContext(DbContextOptions options) : base(options)
         {
 
         }
@@ -25,7 +26,7 @@ namespace Dieta.API.DietaContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(DietasDbContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
 
 
 
@@ -118,7 +119,7 @@ namespace Dieta.API.DietaContext
   .HasMany(x => x.Meals) // Dieta has many Refeicoes
   .WithMany(x => x.Diets);   // Refeicao has many Dietas (optional, depending on your needs)
 
-            modelBuilder.Entity<Client>()
+            modelBuilder.Entity<ApplicationUser>()
               .HasMany(c => c.Diets)       
               .WithMany(d => d.Client)    
               .UsingEntity<Dictionary<string, object>>(  
@@ -129,9 +130,9 @@ namespace Dieta.API.DietaContext
                       .HasForeignKey("DietId")
                       .HasConstraintName("FK_ClienteDiet_Dietas_DietId"),
                   j => j
-                      .HasOne<Client>()
+                      .HasOne<ApplicationUser>()
                       .WithMany()
-                      .HasForeignKey("ClienteId")
+                      .HasForeignKey("Id")
                       .HasConstraintName("FK_ClienteDiet_Clientes_ClienteId")
               );
 

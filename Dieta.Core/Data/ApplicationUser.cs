@@ -4,15 +4,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dieta.Core.Data
 {
-    public class Client : IdentityUser<string>
+    public class ApplicationUser : IdentityUser<string>
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 
         //[Column("id")]
         //public override string Id { get; set; }
-        [Column("username")]
-        public override string UserName { get; set; }
+        //[Column("username")]
+        //public override string UserName { get; set; }
         //[Column("normalized_username")]
         //public override string NormalizedUserName { get; set; }
         //[Column("email")]
@@ -39,17 +39,17 @@ namespace Dieta.Core.Data
         //public override bool LockoutEnabled { get; set; }
         //[Column("access_failed_count")]
         //public override int AccessFailedCount { get; set; }
-        public int ClientId {get; set;}
+        //public int ClientId {get; set;}
         public string? Name { get; set; }
         public int Age { get; set; }
         public float Heigth { get; set; }
         public float Weight { get; set; }
         public double BasalMeatabolicRate { get; set; }
-        public int TrainingFreq { get; set; }
-
-        public List<Diet>? Diets { get; set; } 
+        public int TrainingFreq { get; set; }       
         public string? DietType { get; set; }
         public string? informationAdd { get; set; }
+
+        public List<Diet>? Diets { get; set; }
 
     }
 }

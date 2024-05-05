@@ -20,14 +20,14 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<PedidoService2>();
 builder.Services.AddScoped<AlimentoService>();
 builder.Services.AddHttpClient();
-builder.Services.AddDbContext<DietasDbContext>(opts => opts.UseSqlServer(builder.Configuration.GetConnectionString("dietaConnection")));
+builder.Services.AddDbContext<ApplicationDbContext>(opts => opts.UseSqlServer(builder.Configuration.GetConnectionString("dietaConnection")));
 
 
-builder.Services.AddIdentity<Client, IdentityRole>()
-    .AddEntityFrameworkStores<DietasDbContext>()
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddScoped<IUserClaimsPrincipalFactory<Client>, UserClaimsPrincipalFactory<Client, IdentityRole>>();
+builder.Services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, UserClaimsPrincipalFactory<ApplicationUser, IdentityRole>>();
 //builder.Services.Configure<IdentityOptions>(options =>
 //{
 //    // Configurações de identidade, se necessário
@@ -35,7 +35,7 @@ builder.Services.AddScoped<IUserClaimsPrincipalFactory<Client>, UserClaimsPrinci
 
 builder.Services.AddScoped<IFoodRepository, FoodRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<SignInManager<Client>>();
+builder.Services.AddScoped<SignInManager<ApplicationUser>>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddHttpClient<IFoodRepository, FoodRepository>(client =>
 {

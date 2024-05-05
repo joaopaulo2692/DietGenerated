@@ -14,11 +14,11 @@ namespace Dieta.API.Repository
 {
     public class FoodRepository : IFoodRepository
     {
-        private readonly DietasDbContext _db;
+        private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
         private readonly HttpClient _httpClient;
 
-        public FoodRepository(DietasDbContext db, IMapper mapper, HttpClient httpClient)
+        public FoodRepository(ApplicationDbContext db, IMapper mapper, HttpClient httpClient)
         {
             _db = db;
             _mapper = mapper;
@@ -29,7 +29,7 @@ namespace Dieta.API.Repository
         { 
             try{
                 Meal meal = new Meal();
-                meal = await _db.Refeicoes.Where(x => x.MealId == ordenation).FirstOrDefaultAsync();
+                meal = await _db.Meals.Where(x => x.MealId == ordenation).FirstOrDefaultAsync();
                 //{
                 //    if(meal == null)
                 //    {
@@ -48,10 +48,10 @@ namespace Dieta.API.Repository
                     Ordenation = 1
                 };
                 meal.FoodsMeals.Add(alimentoRef);
-                Diet? diet = await _db.Dietas.FirstOrDefaultAsync();
+                Diet? diet = await _db.Diets.FirstOrDefaultAsync();
                 diet.Meals.Add(meal);
-                Client? client = await _db.Clientes.FirstOrDefaultAsync();
-                client.Diets.Add(diet);
+                //ApplicationUser? client = await _db.Clientes.FirstOrDefaultAsync();
+                //client.Diets.Add(diet);
                 
 
 
@@ -112,7 +112,7 @@ namespace Dieta.API.Repository
             try
             {
                 Result result = new Result();
-                _db.Alimentos.AddRange(alimentos);
+                _db.Foods.AddRange(alimentos);
                 await _db.SaveChangesAsync();
                 return Result.Ok();
             }
@@ -132,7 +132,7 @@ namespace Dieta.API.Repository
         {
             try
             {
-                List<Food> alimentos = await _db.Alimentos.ToListAsync();
+                List<Food> alimentos = await _db.Foods.ToListAsync();
 
                 return alimentos;
             }

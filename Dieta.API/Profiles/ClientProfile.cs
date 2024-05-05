@@ -8,11 +8,11 @@ namespace Dieta.API.Profiles
     {
         public ClientProfile()
         {
-            CreateMap<UserVO, Client>()
+            CreateMap<UserVO, ApplicationUser>()
                 .ForMember(x => x.UserName, x => x.MapFrom(x => x.Username))
                 .ReverseMap();
 
-            CreateMap<LoginVO, Client>()
+            CreateMap<LoginVO, ApplicationUser>()
                 .ReverseMap();
         }
     }

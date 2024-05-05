@@ -12,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<DietasDbContext>(opts => opts.UseSqlServer(builder.Configuration.GetConnectionString("dietaConnection")));
+builder.Services.AddDbContext<ApplicationDbContext>(opts => opts.UseSqlServer(builder.Configuration.GetConnectionString("dietaConnection")));
 
 
 //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -25,9 +25,9 @@ builder.Services.AddHttpClient();
 //    client.BaseAddress = new Uri("https://localhost:44370");
 //    client.DefaultRequestHeaders.Add("Accept", "application/+json");
 //});
-builder.Services.AddIdentity<Client, IdentityRole>()
-    .AddEntityFrameworkStores<DietasDbContext>()
-    .AddSignInManager<SignInManager<Client>>();
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddSignInManager<SignInManager<ApplicationUser>>();
 
 builder.Services.AddScoped<IFoodRepository,FoodRepository>();
 builder.Services.AddScoped<IUserRepository,UserRepository>();

@@ -6,31 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Dieta.API.Migrations
 {
     /// <inheritdoc />
-    public partial class OrdenationAlimentos : Migration
+    public partial class alterationName : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Alimentos",
-                columns: table => new
-                {
-                    AlimentosId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Alimento = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Carboidrato = table.Column<double>(type: "float", nullable: false),
-                    Lipidio = table.Column<double>(type: "float", nullable: false),
-                    Proteina = table.Column<double>(type: "float", nullable: false),
-                    Kcal = table.Column<double>(type: "float", nullable: false),
-                    Preparo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Fibra = table.Column<double>(type: "float", nullable: false),
-                    Quantidade = table.Column<double>(type: "float", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Alimentos", x => x.AlimentosId);
-                });
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -50,6 +30,14 @@ namespace Dieta.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Age = table.Column<int>(type: "int", nullable: false),
+                    Heigth = table.Column<float>(type: "real", nullable: false),
+                    Weight = table.Column<float>(type: "real", nullable: false),
+                    BasalMeatabolicRate = table.Column<double>(type: "float", nullable: false),
+                    TrainingFreq = table.Column<int>(type: "int", nullable: false),
+                    DietType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    informationAdd = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -71,52 +59,52 @@ namespace Dieta.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Clientes",
-                columns: table => new
-                {
-                    ClienteId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Idade = table.Column<int>(type: "int", nullable: false),
-                    Altura = table.Column<float>(type: "real", nullable: false),
-                    Peso = table.Column<float>(type: "real", nullable: false),
-                    GastoMetaBasal = table.Column<double>(type: "float", nullable: false),
-                    TreinoFreq = table.Column<int>(type: "int", nullable: false),
-                    tipoDieta = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    informacaoAdd = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Clientes", x => x.ClienteId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Dietas",
+                name: "Diets",
                 columns: table => new
                 {
                     DietId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NomeDieta = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TipoDieta = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    DietName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DietType = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Dietas", x => x.DietId);
+                    table.PrimaryKey("PK_Diets", x => x.DietId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Refeicoes",
+                name: "Foods",
                 columns: table => new
                 {
-                    RefeicaoId = table.Column<int>(type: "int", nullable: false)
+                    FoodId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NomeRefeicao = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Horario = table.Column<TimeSpan>(type: "time", nullable: false),
+                    FoodName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Carb = table.Column<double>(type: "float", nullable: false),
+                    Fat = table.Column<double>(type: "float", nullable: false),
+                    Protein = table.Column<double>(type: "float", nullable: false),
+                    Kcal = table.Column<double>(type: "float", nullable: false),
+                    Prepare = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Fiber = table.Column<double>(type: "float", nullable: false),
+                    Amount = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Foods", x => x.FoodId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Meals",
+                columns: table => new
+                {
+                    MealId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NameMeal = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Ordenation = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Refeicoes", x => x.RefeicaoId);
+                    table.PrimaryKey("PK_Meals", x => x.MealId);
                 });
 
             migrationBuilder.CreateTable(
@@ -165,8 +153,8 @@ namespace Dieta.API.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
@@ -210,8 +198,8 @@ namespace Dieta.API.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -229,79 +217,73 @@ namespace Dieta.API.Migrations
                 name: "ClienteDiet",
                 columns: table => new
                 {
-                    ClienteId = table.Column<int>(type: "int", nullable: false),
-                    DietId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DietId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClienteDiet", x => new { x.ClienteId, x.DietId });
+                    table.PrimaryKey("PK_ClienteDiet", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ClienteDiet_Clientes_ClienteId",
-                        column: x => x.ClienteId,
-                        principalTable: "Clientes",
-                        principalColumn: "ClienteId",
+                        column: x => x.Id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ClienteDiet_Dietas_DietId",
                         column: x => x.DietId,
-                        principalTable: "Dietas",
+                        principalTable: "Diets",
+                        principalColumn: "DietId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DietMeal",
+                columns: table => new
+                {
+                    DietsDietId = table.Column<int>(type: "int", nullable: false),
+                    MealsMealId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DietMeal", x => new { x.DietsDietId, x.MealsMealId });
+                    table.ForeignKey(
+                        name: "FK_DietMeal_Diets_DietsDietId",
+                        column: x => x.DietsDietId,
+                        principalTable: "Diets",
                         principalColumn: "DietId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DietMeal_Meals_MealsMealId",
+                        column: x => x.MealsMealId,
+                        principalTable: "Meals",
+                        principalColumn: "MealId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AlimentosRefeicao",
+                name: "FoodsMeal",
                 columns: table => new
                 {
-                    AlimentosId = table.Column<int>(type: "int", nullable: false),
-                    RefeicaoId = table.Column<int>(type: "int", nullable: false),
+                    FoodId = table.Column<int>(type: "int", nullable: false),
+                    MealId = table.Column<int>(type: "int", nullable: false),
                     Ordenation = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AlimentosRefeicao", x => new { x.AlimentosId, x.RefeicaoId });
+                    table.PrimaryKey("PK_FoodsMeal", x => new { x.FoodId, x.MealId });
                     table.ForeignKey(
-                        name: "FK_AlimentosRefeicao_Alimentos_AlimentosId",
-                        column: x => x.AlimentosId,
-                        principalTable: "Alimentos",
-                        principalColumn: "AlimentosId",
+                        name: "FK_FoodsMeal_Foods_FoodId",
+                        column: x => x.FoodId,
+                        principalTable: "Foods",
+                        principalColumn: "FoodId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AlimentosRefeicao_Refeicoes_RefeicaoId",
-                        column: x => x.RefeicaoId,
-                        principalTable: "Refeicoes",
-                        principalColumn: "RefeicaoId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DietRefeicao",
-                columns: table => new
-                {
-                    DietaDietId = table.Column<int>(type: "int", nullable: false),
-                    RefeicoesRefeicaoId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DietRefeicao", x => new { x.DietaDietId, x.RefeicoesRefeicaoId });
-                    table.ForeignKey(
-                        name: "FK_DietRefeicao_Dietas_DietaDietId",
-                        column: x => x.DietaDietId,
-                        principalTable: "Dietas",
-                        principalColumn: "DietId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_DietRefeicao_Refeicoes_RefeicoesRefeicaoId",
-                        column: x => x.RefeicoesRefeicaoId,
-                        principalTable: "Refeicoes",
-                        principalColumn: "RefeicaoId",
+                        name: "FK_FoodsMeal_Meals_MealId",
+                        column: x => x.MealId,
+                        principalTable: "Meals",
+                        principalColumn: "MealId",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AlimentosRefeicao_RefeicaoId",
-                table: "AlimentosRefeicao",
-                column: "RefeicaoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -348,17 +330,19 @@ namespace Dieta.API.Migrations
                 column: "DietId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DietRefeicao_RefeicoesRefeicaoId",
-                table: "DietRefeicao",
-                column: "RefeicoesRefeicaoId");
+                name: "IX_DietMeal_MealsMealId",
+                table: "DietMeal",
+                column: "MealsMealId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FoodsMeal_MealId",
+                table: "FoodsMeal",
+                column: "MealId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "AlimentosRefeicao");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -378,10 +362,10 @@ namespace Dieta.API.Migrations
                 name: "ClienteDiet");
 
             migrationBuilder.DropTable(
-                name: "DietRefeicao");
+                name: "DietMeal");
 
             migrationBuilder.DropTable(
-                name: "Alimentos");
+                name: "FoodsMeal");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -390,13 +374,13 @@ namespace Dieta.API.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Clientes");
+                name: "Diets");
 
             migrationBuilder.DropTable(
-                name: "Dietas");
+                name: "Foods");
 
             migrationBuilder.DropTable(
-                name: "Refeicoes");
+                name: "Meals");
         }
     }
 }

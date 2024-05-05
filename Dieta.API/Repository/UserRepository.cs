@@ -9,17 +9,17 @@ namespace Dieta.API.Repository
 {
     public class UserRepository : IUserRepository
     {
-        private readonly SignInManager<Client> _signInManager;
-        private readonly DietasDbContext _db;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ApplicationDbContext _db;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public UserRepository(SignInManager<Client> signInManager, DietasDbContext db, IHttpContextAccessor httpContextAccessor)
+        public UserRepository(SignInManager<ApplicationUser> signInManager, ApplicationDbContext db, IHttpContextAccessor httpContextAccessor)
         {
             _signInManager = signInManager;
             _db = db;
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<Result> CreateUser(Client user)
+        public async Task<Result> CreateUser(ApplicationUser user)
         {
             try
             {
@@ -38,23 +38,26 @@ namespace Dieta.API.Repository
             }
         }
 
-        public async Task<List<Client>> FindAll()
+        public async Task<List<ApplicationUser>> FindAll()
         {
-            List<Client> clients = await _db.Clientes.ToListAsync();
-            return clients;
+            //List<ApplicationUser> clients = await _db.Clientes.ToListAsync();
+            //return clients;
+            return new List<ApplicationUser>();
         }
 
-        public async Task<Client> FindByName(string userName)
+        public async Task<ApplicationUser> FindByName(string userName)
         {
             try
             {
-                Client clientDb = await _db.Clientes.Where(x => x.UserName == userName).FirstOrDefaultAsync();
+                //ApplicationUser clientDb = await _db.Clientes.Where(x => x.UserName == userName).FirstOrDefaultAsync();
 
-                return clientDb;
+                //return clientDb;
+
+                return new ApplicationUser();
             }
             catch(Exception ex)
             {
-                return new Client();
+                return new ApplicationUser();
             }
         }
 
@@ -65,7 +68,7 @@ namespace Dieta.API.Repository
             
         }
 
-        public async Task<Result> SignInUser(Client user, string password)
+        public async Task<Result> SignInUser(ApplicationUser user, string password)
         {
             try
             {

@@ -12,7 +12,7 @@ namespace Dieta.Core.Data
         public string DietType { get; set; }
         public virtual List<Meal>? Meals { get; set; }
  
-        public List<Client>? Client { get; set; }
+        public List<ApplicationUser>? Client { get; set; }
 
 
 

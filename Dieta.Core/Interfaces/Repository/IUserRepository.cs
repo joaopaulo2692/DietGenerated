@@ -11,11 +11,11 @@ namespace Dieta.Core.Interfaces.Repository
 {
     public interface IUserRepository
     {
-        public Task<Result> CreateUser(Client client);
+        public Task<Result> CreateUser(ApplicationUser client);
 
-        public Task<Result> SignInUser(Client user, string password);
-        public Task<Client> FindByName(string id);
-        public Task<List<Client>> FindAll();
+        public Task<Result> SignInUser(ApplicationUser user, string password);
+        public Task<ApplicationUser> FindByName(string id);
+        public Task<List<ApplicationUser>> FindAll();
         public Task<string> GetBearerTokenAsync();
     }
 }
