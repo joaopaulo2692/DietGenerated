@@ -62,7 +62,7 @@
             </div>
 
             <div style="display: inline-block;">
-                <RadzenButton Click=@(args => alimentosService.AddFoodAsync(alimentoSelecionado[0],100,1)) Text="Adcionar" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Secondary" />
+                @* <RadzenButton Click=@(args => alimentosService.AddFoodAsync(alimentoSelecionado[0],100,1)) Text="Adcionar" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Secondary" /> *@
             </div>
             <style>
                 .elemento {
@@ -161,7 +161,7 @@
     }
     private async void AddFood(Food food, double amount, int ordenation)
     {
-        await alimentosService.AddFoodAsync(food, amount, ordenation);
+        // await alimentosService.AddFoodAsync(food, amount, ordenation);
         alimentosBancoDeDados = await alimentosService.GetAllSavedAsync();
         await InvokeAsync(StateHasChanged);
     }

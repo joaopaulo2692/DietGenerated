@@ -15,7 +15,7 @@ namespace Dieta.Core.Data
         public double Kcal { get; set; }
         public string? Prepare { get; set; }
         public double Fiber { get; set; }
-        public double Amount {  get; set; }
+        //public double Amount {  get; set; }
 
 
         public virtual List<FoodsMeal> FoodsMeals { get; set; }

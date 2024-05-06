@@ -29,11 +29,12 @@ namespace Dieta.Infrastructure.Service
                 {
                     Result.Fail("Usuário sem dieta iniciada");
                 }
+                return Result.Fail("Usuário sem dieta iniciada");
 
             }
             catch(Exception ex)
             {
-
+                return Result.Fail("Usuário sem dieta iniciada");
             }
         }
     }

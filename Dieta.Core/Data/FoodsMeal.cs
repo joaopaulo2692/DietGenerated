@@ -15,6 +15,7 @@ namespace Dieta.Core.Data
         [Key]
         public int MealId { get; set; }
         public int Ordenation { get; set; }
+        public double Amount{ get; set; }
 
         public virtual Food Food {get; set;}
         public virtual Meal Meal {get; set;}

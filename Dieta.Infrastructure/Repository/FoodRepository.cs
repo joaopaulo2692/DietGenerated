@@ -57,7 +57,7 @@ namespace Dieta.Infrastructure.Repository
                 {
                     FoodName = food.FoodName,
                     Prepare = food.Prepare,
-                    Amount = amount,
+                    //Amount = amount,
                     Protein = (food.Protein * amount) / 100,
                     Carb = (food.Carb * amount) / 100,
                     Fat = (food.Fat * amount) / 100,
@@ -91,7 +91,7 @@ namespace Dieta.Infrastructure.Repository
             try
             {
                 Result result = new Result();
-                _db.Foods.AddRange(alimentos);
+                //_db.Foods.AddRange(alimentos);
                 await _db.SaveChangesAsync();
                 return Result.Ok();
             }
@@ -110,9 +110,9 @@ namespace Dieta.Infrastructure.Repository
         {
             try
             {
-                List<Food> alimentos = await _db.Foods.ToListAsync();
+                //List<Food> alimentos = await _db.Foods.ToListAsync();
 
-                return alimentos;
+                return new List<Food>();
             }
             catch (Exception ex)
             {
