@@ -6,6 +6,6 @@ namespace Dieta.Core.Interfaces.Service
 {
     public interface IFoodService
     {
-        public Task<Result> AddFoodAsync(FoodVO food, double amount, int meal);
+        public Task<Result> AddFoodAsync(FoodVO food, string idUser);
     }
 }

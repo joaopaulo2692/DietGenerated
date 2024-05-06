@@ -2,6 +2,7 @@
 using Dieta.Core.Interfaces.Repository;
 using Dieta.Core.ViewObject;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Dieta.API.Controllers
 {
@@ -9,12 +10,12 @@ namespace Dieta.API.Controllers
     [ApiController]
     public class DietaController : ControllerBase
     {
-        private readonly IFoodRepository _alimentoRepo;
+        private readonly IFoodRepository _foodRepo;
 
 
         public DietaController(IFoodRepository alimentoRepo)
         {
-            _alimentoRepo = alimentoRepo;
+            _foodRepo = alimentoRepo;
         }
 
         [HttpPost]
@@ -23,7 +24,9 @@ namespace Dieta.API.Controllers
         {
             try
             {
-                await _alimentoRepo.CreateAsync(alimentoVO);
+                Claim idUser = User.FindFirst(ClaimTypes.NameIdentifier);
+
+                await _foodRepo.CreateAsync(alimentoVO);
 
                 return StatusCode(StatusCodes.Status200OK, alimentoVO);
             }
@@ -39,7 +42,7 @@ namespace Dieta.API.Controllers
         {
             try
             {
-                await _alimentoRepo.CreateAsync(alimentoVO);
+                await _foodRepo.CreateAsync(alimentoVO);
 
                 return StatusCode(StatusCodes.Status200OK, alimentoVO);
             }
@@ -55,7 +58,7 @@ namespace Dieta.API.Controllers
         {
             try
             {
-                List<Food> alimentos = await _alimentoRepo.GetAllAsync();
+                List<Food> alimentos = await _foodRepo.GetAllAsync();
 
                 return StatusCode(StatusCodes.Status200OK, alimentos);
             }
@@ -70,7 +73,7 @@ namespace Dieta.API.Controllers
         {
             try
             {
-                IEnumerable<Food> listaALimentos = await _alimentoRepo.GetAllSavedAsync();
+                IEnumerable<Food> listaALimentos = await _foodRepo.GetAllSavedAsync();
                 return StatusCode(StatusCodes.Status200OK, listaALimentos);
             }
             catch(Exception ex)

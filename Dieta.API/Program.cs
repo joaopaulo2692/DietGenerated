@@ -15,27 +15,23 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(opts => opts.UseSqlServer(builder.Configuration.GetConnectionString("dietaConnection")));
 
 
-//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-//    .AddEntityFrameworkStores<DietasDbContext>();
+
 
 builder.Services.AddHttpClient();
 
-//builder.Services.AddHttpClient<IAlimentoRepository, AlimentoRepository>(client =>
-//{
-//    client.BaseAddress = new Uri("https://localhost:44370");
-//    client.DefaultRequestHeaders.Add("Accept", "application/+json");
-//});
+
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddSignInManager<SignInManager<ApplicationUser>>();
 
 builder.Services.AddScoped<IFoodRepository,FoodRepository>();
 builder.Services.AddScoped<IUserRepository,UserRepository>();
+builder.Services.AddScoped<IDietRepository,DietRepository>();
 
 
 builder.Services.AddControllers();
 
-//builder.Services.AddScoped<IAlimentoRepository, AlimentoRepository>();
+builder.Services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme);
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

@@ -1,9 +1,15 @@
-﻿using Dieta.Core.Data;
+﻿using Azure.Core;
+using Dieta.Core.Data;
 using Dieta.Core.Interfaces.Repository;
 using Dieta.Infrastructure.DietaContext;
 using FluentResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Primitives;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace Dieta.Infrastructure.Repository
 {
@@ -11,11 +17,13 @@ namespace Dieta.Infrastructure.Repository
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ApplicationDbContext _db;
-
-        public UserRepository(SignInManager<ApplicationUser> signInManager, ApplicationDbContext db)
+        private readonly UserManager<ApplicationUser> _userManager;
+       
+        public UserRepository(SignInManager<ApplicationUser> signInManager, ApplicationDbContext db, UserManager<ApplicationUser> userManager)
         {
             _signInManager = signInManager;
             _db = db;
+            _userManager = userManager;
         }
 
         public async Task<Result> CreateUser(ApplicationUser user)
@@ -92,10 +100,7 @@ namespace Dieta.Infrastructure.Repository
             }
         }
 
-        public Task<string> GetBearerTokenAsync()
-        {
-            throw new NotImplementedException();
-        }
+      
 
         public async Task<Result> SignInUser(ApplicationUser user, string password)
         {
@@ -111,7 +116,9 @@ namespace Dieta.Infrastructure.Repository
                                 );
 
                 if (result.Succeeded)
+
                     return Result.Ok();
+                
                 else
                     return Result.Fail("Login attempt failed");
             }

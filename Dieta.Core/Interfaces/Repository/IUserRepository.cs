@@ -17,6 +17,6 @@ namespace Dieta.Core.Interfaces.Repository
         public Task<ApplicationUser> FindById(string id);
         public Task<ApplicationUser> FindByEmail(string email);
         public Task<List<ApplicationUser>> FindAll();
-        public Task<string> GetBearerTokenAsync();
+       
     }
 }

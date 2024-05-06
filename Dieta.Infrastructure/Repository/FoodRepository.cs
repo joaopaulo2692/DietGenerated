@@ -25,33 +25,12 @@ namespace Dieta.Infrastructure.Repository
             _httpClient = httpClient;
         }
 
-        public async Task<Result> AddFoodAsync(Food food, double amount, int ordenation)
+        public async Task<Result> AddFoodAsync(Food food,Diet diet, int meal, int ordenation)
         { 
             try{
-                Meal meal = new Meal();
-                meal = await _db.Meals.Where(x => x.MealId == ordenation).FirstOrDefaultAsync();
-                //{
-                //    if(meal == null)
-                //    {
-                //        Meal mealCreated = new Meal()
-                //        {
-                //            Ordenation = ordenation
-                //        };
-                //    }
-                //}
+                Diet dietDb = await _db.Diets.Where(x => x.DietId == diet.DietId).FirstOrDefaultAsync();
+                if (dietDb == null) return Result.Fail("Dieta não iniciada");
 
-                meal.Ordenation = ordenation;
-                FoodsMeal alimentoRef = new FoodsMeal()
-                {
-                    Food = food,
-                    Meal = meal,
-                    Ordenation = 1
-                };
-                meal.FoodsMeals.Add(alimentoRef);
-                Diet? diet = await _db.Diets.FirstOrDefaultAsync();
-                diet.Meals.Add(meal);
-                //ApplicationUser? client = await _db.Clientes.FirstOrDefaultAsync();
-                //client.Diets.Add(diet);
                 
 
 
