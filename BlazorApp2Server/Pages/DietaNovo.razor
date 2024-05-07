@@ -2,11 +2,16 @@
 @* @inject HttpClient Http *@
 @using System.Text.Json
 @using System.Text.Json.Serialization
+@using AutoMapper
+@using Dieta.API.Controllers
+@using Dieta.Core.ViewObject
 @using FluentResults
 @using System.Globalization
 @using global::Dieta.Core.Interfaces
 @inject IHttpClientFactory ClientFactory
 @inject IFoodRepository alimentosService
+@inject DietaController _dietController
+@inject IMapper _mapper
 
 
 @using static System.Net.Http.HttpClient
@@ -41,7 +46,7 @@
                 <RadzenDataGridColumn TItem="Food" Property="Fat" Title="Gordura" Width="8px" />
                 <RadzenDataGridColumn TItem="Food" Property="Kcal" Title="Kcal" Width="8px" />
                 <RadzenDataGridColumn TItem="Food" Property="Fiber" Title="Fibra" Width="8px" />
-
+                
             </Columns>
         </RadzenDataGrid>
 
@@ -104,6 +109,8 @@
 </ul>
 
 @code {
+    
+    private IList<Food> selectedFood;
     double quantidade;
     IList<Food> selectedEmployees;
     private IList<Food> alimentoSelecionado;

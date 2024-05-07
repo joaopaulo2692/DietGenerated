@@ -1,8 +1,10 @@
 using AutoMapper;
 using Dieta.Core.Data;
 using Dieta.Core.Interfaces.Repository;
+using Dieta.Core.Interfaces.Service;
 using Dieta.Infrastructure.DietaContext;
 using Dieta.Infrastructure.Repository;
+using Dieta.Infrastructure.Service;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +29,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 builder.Services.AddScoped<IFoodRepository,FoodRepository>();
 builder.Services.AddScoped<IUserRepository,UserRepository>();
 builder.Services.AddScoped<IDietRepository,DietRepository>();
+builder.Services.AddScoped<IFoodService, FoodService>();
 
 
 builder.Services.AddControllers();

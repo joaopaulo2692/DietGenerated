@@ -1,6 +1,8 @@
 ﻿using Dieta.Core.Data;
 using Dieta.Core.Interfaces.Repository;
+using Dieta.Core.Interfaces.Service;
 using Dieta.Core.ViewObject;
+using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -11,24 +13,26 @@ namespace Dieta.API.Controllers
     public class DietaController : ControllerBase
     {
         private readonly IFoodRepository _foodRepo;
+        private readonly IFoodService _foodService;
 
 
-        public DietaController(IFoodRepository alimentoRepo)
+        public DietaController(IFoodRepository alimentoRepo, IFoodService foodSerice)
         {
             _foodRepo = alimentoRepo;
+            _foodService = foodSerice;
         }
 
         [HttpPost]
         [Route("Save")]
-        public async Task<IActionResult> SaveDiet([FromQuery]FoodVO alimentoVO)
+        public async Task<IActionResult> SaveDiet([FromQuery]Food food, double amount, int meal)
         {
             try
             {
                 Claim idUser = User.FindFirst(ClaimTypes.NameIdentifier);
 
-                await _foodRepo.CreateAsync(alimentoVO);
+                Result response = await _foodService.AddFoodAsync(food, amount, meal, idUser.Value);
 
-                return StatusCode(StatusCodes.Status200OK, alimentoVO);
+                return StatusCode(StatusCodes.Status200OK, response);
             }
             catch(Exception ex)
             {
@@ -42,9 +46,9 @@ namespace Dieta.API.Controllers
         {
             try
             {
-                await _foodRepo.CreateAsync(alimentoVO);
+                //await _foodRepo.CreateAsync(alimentoVO);
 
-                return StatusCode(StatusCodes.Status200OK, alimentoVO);
+                return StatusCode(StatusCodes.Status200OK);
             }
             catch (Exception ex)
             {

@@ -25,14 +25,22 @@ namespace Dieta.Infrastructure.Repository
             _httpClient = httpClient;
         }
 
-        public async Task<Result> AddFoodAsync(Food food,Diet diet, int meal, int ordenation)
+        public async Task<Result> AddFoodAsync(Food food,Diet diet, Meal meal, int ordenationFood)
         { 
             try{
                 Diet dietDb = await _db.Diets.Where(x => x.DietId == diet.DietId).FirstOrDefaultAsync();
-                if (dietDb == null) return Result.Fail("Dieta não iniciada");
+                if (dietDb == null) return Result.Fail("Dieta não encontrada");
 
-                
+                Meal mealDb = await _db.Meals.Where(x => x.MealId == meal.MealId).FirstOrDefaultAsync();
+                if (mealDb == null) return Result.Fail("Refeição não encontrada");
 
+                FoodsMeal foodsMeal = new FoodsMeal()
+                {
+                    FoodId = food.FoodId,
+                    MealId = meal.MealId,
+                };
+
+                dietDb.Meals.Add(mealDb);
 
                 await _db.SaveChangesAsync();
                 
@@ -45,28 +53,7 @@ namespace Dieta.Infrastructure.Repository
             
         }
 
-        public Food AmountConversion(Food food, double amount)
-        {
-            if(amount == 100)
-            {
-                return food;
-            }
-            else
-            {
-                Food foodConverted = new Food()
-                {
-                    FoodName = food.FoodName,
-                    Prepare = food.Prepare,
-                    //Amount = amount,
-                    Protein = (food.Protein * amount) / 100,
-                    Carb = (food.Carb * amount) / 100,
-                    Fat = (food.Fat * amount) / 100,
-                    Fiber = (food.Fiber * amount) / 100,
-                    Kcal = (food.Kcal * amount) / 100
-                };
-                return foodConverted;
-            }
-        }
+
 
         public async Task<FoodVO> CreateAsync(FoodVO alimentoVO)
         {
@@ -84,6 +71,11 @@ namespace Dieta.Infrastructure.Repository
                 return alimentoVO;
             }
 
+        }
+
+        public Task<Result> CreateAsync(Food food, double amount, int meal)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<Result> CreateListFoodAsync(List<Food> alimentos)
