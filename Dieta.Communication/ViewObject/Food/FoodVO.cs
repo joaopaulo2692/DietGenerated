@@ -1,4 +1,4 @@
-﻿namespace Dieta.Core.ViewObject
+﻿namespace Dieta.Communication.ViewObject.Food
 
 {
     public class FoodVO
@@ -11,7 +11,7 @@
         public double Kcal { get; set; }
         public double Fiber { get; set; }
         public double Amount { get; set; }
-        public int Meal {  get; set; }
-        public int MealOrdenation {  get; set; }
+        public int Meal { get; set; }
+        public int MealOrdenation { get; set; }
     }
 }

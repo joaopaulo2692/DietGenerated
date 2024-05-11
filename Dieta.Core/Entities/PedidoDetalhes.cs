@@ -1,4 +1,4 @@
-﻿namespace Dieta.Core.Data
+﻿namespace Dieta.Core.Entities
 {
     public class PedidoDetalhes
     {

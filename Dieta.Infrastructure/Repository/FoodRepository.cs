@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Dieta.Core.Data;
+using Dieta.Communication.ViewObject.Food;
+using Dieta.Core.Entities;
 using Dieta.Core.Interfaces.Repository;
-using Dieta.Core.ViewObject;
 using Dieta.Infrastructure.DietaContext;
 using FluentResults;
 using Microsoft.EntityFrameworkCore;

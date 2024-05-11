@@ -1,5 +1,4 @@
-﻿using Dieta.Core.Data;
-using Dieta.Core.ViewObject;
+﻿using Dieta.Core.Entities;
 using FluentResults;
 using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 

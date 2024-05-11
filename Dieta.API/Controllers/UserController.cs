@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Dieta.Core.Data;
+using Dieta.Communication.ViewObject.Client;
+using Dieta.Core.Entities;
 using Dieta.Core.Interfaces.Repository;
-using Dieta.Core.ViewObject.Client;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 

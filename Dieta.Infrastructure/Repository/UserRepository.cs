@@ -1,5 +1,5 @@
 ﻿using Azure.Core;
-using Dieta.Core.Data;
+using Dieta.Core.Entities;
 using Dieta.Core.Interfaces.Repository;
 using Dieta.Infrastructure.DietaContext;
 using FluentResults;

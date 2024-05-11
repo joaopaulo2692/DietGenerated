@@ -1,4 +1,4 @@
-﻿using Dieta.Core.Data;
+﻿using Dieta.Core.Entities;
 
 namespace Blazor_MestreDetalhes.Data
 {

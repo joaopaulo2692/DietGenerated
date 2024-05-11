@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dieta.Core.Data
+namespace Dieta.Core.Entities
 {
     public class FoodsMeal
     {

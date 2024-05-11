@@ -1,5 +1,5 @@
 using AutoMapper;
-using Dieta.Core.Data;
+using Dieta.Core.Entities;
 using Dieta.Core.Interfaces.Repository;
 using Dieta.Core.Interfaces.Service;
 using Dieta.Infrastructure.DietaContext;

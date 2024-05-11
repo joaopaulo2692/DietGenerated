@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Dieta.Communication\Dieta.Communication.csproj" />
     <ProjectReference Include="..\Dieta.Core\Dieta.Core.csproj" />
     <ProjectReference Include="..\Dieta.Infrastructure\Dieta.Infrastructure.csproj" />
   </ItemGroup>

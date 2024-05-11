@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dieta.Core.ViewObject.Client
+namespace Dieta.Communication.ViewObject.Client
 {
     public class LoginVO
     {

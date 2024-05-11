@@ -1,7 +1,7 @@
-﻿using Dieta.Core.Data;
+﻿using Dieta.Communication.ViewObject.Food;
+using Dieta.Core.Entities;
 using Dieta.Core.Interfaces.Repository;
 using Dieta.Core.Interfaces.Service;
-using Dieta.Core.ViewObject;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;

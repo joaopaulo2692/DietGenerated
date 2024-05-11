@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Dieta.Core.Data
+namespace Dieta.Core.Entities
 {
     public class Food
     {

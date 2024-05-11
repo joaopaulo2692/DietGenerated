@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using Blazor_MestreDetalhes.Pages;
 using System.Globalization;
 using Blazor_MestreDetalhes.Data;
-using Dieta.Core.Data;
+using Dieta.Core.Entities;
 
 namespace Blazor_MestreDetalhes.Service
 {

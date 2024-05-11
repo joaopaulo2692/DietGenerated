@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
-using Dieta.Core.Data;
-using Dieta.Core.ViewObject.Client;
+using Dieta.Communication.ViewObject.Client;
+using Dieta.Core.Entities;
+
 
 namespace Dieta.API.Profiles
 {

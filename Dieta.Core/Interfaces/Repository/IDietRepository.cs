@@ -1,4 +1,4 @@
-﻿using Dieta.Core.Data;
+﻿using Dieta.Core.Entities;
 using FluentResults;
 using System;
 using System.Collections.Generic;

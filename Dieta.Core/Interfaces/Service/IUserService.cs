@@ -1,4 +1,4 @@
-﻿using Dieta.Core.ViewObject.Client;
+﻿using Dieta.Communication.ViewObject.Client;
 using FluentResults;
 using System;
 using System.Collections.Generic;

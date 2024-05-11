@@ -7,7 +7,7 @@ using Dieta.Infrastructure.Repository;
 using Dieta.Infrastructure.DietaContext;
 using Microsoft.EntityFrameworkCore;
 using Dieta.Core.Interfaces.Repository;
-using Dieta.Core.Data;
+using Dieta.Core.Entities;
 using Microsoft.AspNetCore.Identity;
 
 
