@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Dieta.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class dietNew : Migration
+    public partial class newDatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -269,6 +269,8 @@ namespace Dieta.Infrastructure.Migrations
                 name: "FoodsMeal",
                 columns: table => new
                 {
+                    FoodsMealId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     FoodsId = table.Column<int>(type: "int", nullable: false),
                     MealsId = table.Column<int>(type: "int", nullable: false),
                     Ordenation = table.Column<int>(type: "int", nullable: false),
@@ -276,7 +278,7 @@ namespace Dieta.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FoodsMeal", x => new { x.FoodsId, x.MealsId });
+                    table.PrimaryKey("PK_FoodsMeal", x => x.FoodsMealId);
                     table.ForeignKey(
                         name: "FK_FoodsMeal_Foods_FoodsId",
                         column: x => x.FoodsId,
@@ -339,6 +341,11 @@ namespace Dieta.Infrastructure.Migrations
                 name: "IX_DietMeal_MealsId",
                 table: "DietMeal",
                 column: "MealsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FoodsMeal_FoodsId",
+                table: "FoodsMeal",
+                column: "FoodsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_FoodsMeal_MealsId",

@@ -8,6 +8,7 @@ namespace Dieta.Core.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int DietId { get; set; }
+        public int TotalDietId { get; set; }
         public string DietName { get; set; }
         public string DietType { get; set; }
         [Column("created_at")]
@@ -16,9 +17,11 @@ namespace Dieta.Core.Entities
         public DateTime UpdatedAt { get; set; }
         [Column("disabled_at")]
         public DateTime? DisabledAt { get; set; }
+        
 
         public virtual List<Meal>? Meals { get; set; }
         public List<ApplicationUser>? Client { get; set; }
+        public virtual TotalDiet TotalDiet { get; set; }
 
 
 

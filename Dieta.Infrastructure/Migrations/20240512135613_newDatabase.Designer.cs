@@ -4,6 +4,7 @@ using Dieta.Infrastructure.DietaContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dieta.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240512135613_newDatabase")]
+    partial class newDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -178,9 +181,6 @@ namespace Dieta.Infrastructure.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("disabled_at");
 
-                    b.Property<int>("TotalDietId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2")
                         .HasColumnName("updated_at");
@@ -274,40 +274,6 @@ namespace Dieta.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Meals");
-                });
-
-            modelBuilder.Entity("Dieta.Core.Entities.TotalDiet", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<double>("Carb")
-                        .HasColumnType("float");
-
-                    b.Property<int>("DietId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Fat")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Fiber")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Kcal")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Protein")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DietId")
-                        .IsUnique();
-
-                    b.ToTable("TotalDiet");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -492,17 +458,6 @@ namespace Dieta.Infrastructure.Migrations
                     b.Navigation("Meal");
                 });
 
-            modelBuilder.Entity("Dieta.Core.Entities.TotalDiet", b =>
-                {
-                    b.HasOne("Dieta.Core.Entities.Diet", "Diet")
-                        .WithOne("TotalDiet")
-                        .HasForeignKey("Dieta.Core.Entities.TotalDiet", "DietId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Diet");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -551,12 +506,6 @@ namespace Dieta.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Dieta.Core.Entities.Diet", b =>
-                {
-                    b.Navigation("TotalDiet")
                         .IsRequired();
                 });
 

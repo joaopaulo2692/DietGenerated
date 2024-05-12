@@ -1,4 +1,5 @@
 ﻿
+using AutoMapper;
 using Dieta.Core.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -47,8 +48,11 @@ namespace Dieta.Infrastructure.DietaContext
                       .HasConstraintName("FK_ClienteDiet_Clientes_ClienteId")
               );
 
-            modelBuilder.Entity<FoodsMeal>()  // Define AlimentosRefeicao entity
-              .HasKey(x => new { x.FoodsId, x.MealsId }); // Composite key
+            //modelBuilder.Entity<FoodsMeal>()  // Define AlimentosRefeicao entity
+            //  .HasKey(x => new { x.FoodsId, x.MealsId }); // Composite key
+
+            modelBuilder.Entity<FoodsMeal>()
+                .HasKey(fm => fm.FoodsMealId);
 
             modelBuilder.Entity<FoodsMeal>()
              .HasOne(x => x.Food)
@@ -62,6 +66,10 @@ namespace Dieta.Infrastructure.DietaContext
               .HasForeignKey(x => x.MealsId);
 
 
+            modelBuilder.Entity<TotalDiet>()
+                .HasOne(x => x.Diet)
+                .WithOne(x => x.TotalDiet)
+                .HasForeignKey<TotalDiet>(p => p.DietId);
 
 
 
