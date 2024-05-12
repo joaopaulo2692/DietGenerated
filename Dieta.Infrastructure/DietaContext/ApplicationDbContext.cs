@@ -48,22 +48,22 @@ namespace Dieta.Infrastructure.DietaContext
               );
 
             modelBuilder.Entity<FoodsMeal>()  // Define AlimentosRefeicao entity
-              .HasKey(x => new { x.FoodId, x.MealId }); // Composite key
+              .HasKey(x => new { x.FoodsId, x.MealsId }); // Composite key
 
             modelBuilder.Entity<FoodsMeal>()
-              .HasOne(x => x.Food)
-              .WithMany()
-              .HasForeignKey(x => x.FoodId);
-              
+             .HasOne(x => x.Food)
+             .WithMany(x => x.FoodsMeals)
+             .HasForeignKey(x => x.FoodsId);
+
 
             modelBuilder.Entity<FoodsMeal>()
               .HasOne(x => x.Meal)
-              .WithMany()
-              .HasForeignKey(x => x.MealId);
+              .WithMany(x => x.FoodsMeals)
+              .HasForeignKey(x => x.MealsId);
 
 
-           
-                
+
+
 
         }
     }

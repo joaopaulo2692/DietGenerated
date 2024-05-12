@@ -7,7 +7,7 @@ namespace Dieta.Core.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int FoodId { get; set; }
+        public int Id { get; set; }
         public string? FoodName { get; set; }
         public double Carb { get; set; }
         public double Fat { get; set; }

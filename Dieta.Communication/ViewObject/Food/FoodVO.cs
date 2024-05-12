@@ -6,7 +6,7 @@ namespace Dieta.Communication.ViewObject.Food
     public class FoodVO
     {
         [Required(ErrorMessage = "É necessário informar o id do alimento")]
-        public int FoodId { get; set; }
+        public int Id { get; set; }
         public string? Food { get; set; }
         public double Carb { get; set; }
         public double Fat { get; set; }

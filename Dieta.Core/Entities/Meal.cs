@@ -6,7 +6,7 @@ namespace Dieta.Core.Entities
 {
     public class Meal
     {
-        public int MealId { get; set; }
+        public int Id { get; set; }
         public string NameMeal { get; set; }
         public DateTime Date { get; set; }
         public int Ordenation { get; set; }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Dieta.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class addColumnFoodsMeal : Migration
+    public partial class dietNew : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -82,7 +82,7 @@ namespace Dieta.Infrastructure.Migrations
                 name: "Foods",
                 columns: table => new
                 {
-                    FoodId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FoodName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Carb = table.Column<double>(type: "float", nullable: false),
@@ -94,14 +94,14 @@ namespace Dieta.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Foods", x => x.FoodId);
+                    table.PrimaryKey("PK_Foods", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Meals",
                 columns: table => new
                 {
-                    MealId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NameMeal = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -109,7 +109,7 @@ namespace Dieta.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Meals", x => x.MealId);
+                    table.PrimaryKey("PK_Meals", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -246,11 +246,11 @@ namespace Dieta.Infrastructure.Migrations
                 columns: table => new
                 {
                     DietsDietId = table.Column<int>(type: "int", nullable: false),
-                    MealsMealId = table.Column<int>(type: "int", nullable: false)
+                    MealsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DietMeal", x => new { x.DietsDietId, x.MealsMealId });
+                    table.PrimaryKey("PK_DietMeal", x => new { x.DietsDietId, x.MealsId });
                     table.ForeignKey(
                         name: "FK_DietMeal_Diets_DietsDietId",
                         column: x => x.DietsDietId,
@@ -258,10 +258,10 @@ namespace Dieta.Infrastructure.Migrations
                         principalColumn: "DietId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DietMeal_Meals_MealsMealId",
-                        column: x => x.MealsMealId,
+                        name: "FK_DietMeal_Meals_MealsId",
+                        column: x => x.MealsId,
                         principalTable: "Meals",
-                        principalColumn: "MealId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -269,25 +269,25 @@ namespace Dieta.Infrastructure.Migrations
                 name: "FoodsMeal",
                 columns: table => new
                 {
-                    FoodId = table.Column<int>(type: "int", nullable: false),
-                    MealId = table.Column<int>(type: "int", nullable: false),
+                    FoodsId = table.Column<int>(type: "int", nullable: false),
+                    MealsId = table.Column<int>(type: "int", nullable: false),
                     Ordenation = table.Column<int>(type: "int", nullable: false),
                     Amount = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FoodsMeal", x => new { x.FoodId, x.MealId });
+                    table.PrimaryKey("PK_FoodsMeal", x => new { x.FoodsId, x.MealsId });
                     table.ForeignKey(
-                        name: "FK_FoodsMeal_Foods_FoodId",
-                        column: x => x.FoodId,
+                        name: "FK_FoodsMeal_Foods_FoodsId",
+                        column: x => x.FoodsId,
                         principalTable: "Foods",
-                        principalColumn: "FoodId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_FoodsMeal_Meals_MealId",
-                        column: x => x.MealId,
+                        name: "FK_FoodsMeal_Meals_MealsId",
+                        column: x => x.MealsId,
                         principalTable: "Meals",
-                        principalColumn: "MealId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -336,14 +336,14 @@ namespace Dieta.Infrastructure.Migrations
                 column: "DietId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DietMeal_MealsMealId",
+                name: "IX_DietMeal_MealsId",
                 table: "DietMeal",
-                column: "MealsMealId");
+                column: "MealsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FoodsMeal_MealId",
+                name: "IX_FoodsMeal_MealsId",
                 table: "FoodsMeal",
-                column: "MealId");
+                column: "MealsId");
         }
 
         /// <inheritdoc />

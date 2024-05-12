@@ -42,17 +42,17 @@ namespace Dieta.Infrastructure.Migrations
                     b.Property<int>("DietsDietId")
                         .HasColumnType("int");
 
-                    b.Property<int>("MealsMealId")
+                    b.Property<int>("MealsId")
                         .HasColumnType("int");
 
-                    b.HasKey("DietsDietId", "MealsMealId");
+                    b.HasKey("DietsDietId", "MealsId");
 
-                    b.HasIndex("MealsMealId");
+                    b.HasIndex("MealsId");
 
                     b.ToTable("DietMeal");
                 });
 
-            modelBuilder.Entity("Dieta.Core.Data.ApplicationUser", b =>
+            modelBuilder.Entity("Dieta.Core.Entities.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -154,7 +154,7 @@ namespace Dieta.Infrastructure.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Dieta.Core.Data.Diet", b =>
+            modelBuilder.Entity("Dieta.Core.Entities.Diet", b =>
                 {
                     b.Property<int>("DietId")
                         .ValueGeneratedOnAdd()
@@ -187,13 +187,13 @@ namespace Dieta.Infrastructure.Migrations
                     b.ToTable("Diets");
                 });
 
-            modelBuilder.Entity("Dieta.Core.Data.Food", b =>
+            modelBuilder.Entity("Dieta.Core.Entities.Food", b =>
                 {
-                    b.Property<int>("FoodId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FoodId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<double>("Carb")
                         .HasColumnType("float");
@@ -216,17 +216,17 @@ namespace Dieta.Infrastructure.Migrations
                     b.Property<double>("Protein")
                         .HasColumnType("float");
 
-                    b.HasKey("FoodId");
+                    b.HasKey("Id");
 
                     b.ToTable("Foods");
                 });
 
-            modelBuilder.Entity("Dieta.Core.Data.FoodsMeal", b =>
+            modelBuilder.Entity("Dieta.Core.Entities.FoodsMeal", b =>
                 {
-                    b.Property<int>("FoodId")
+                    b.Property<int>("FoodsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("MealId")
+                    b.Property<int>("MealsId")
                         .HasColumnType("int");
 
                     b.Property<double>("Amount")
@@ -235,20 +235,20 @@ namespace Dieta.Infrastructure.Migrations
                     b.Property<int>("Ordenation")
                         .HasColumnType("int");
 
-                    b.HasKey("FoodId", "MealId");
+                    b.HasKey("FoodsId", "MealsId");
 
-                    b.HasIndex("MealId");
+                    b.HasIndex("MealsId");
 
                     b.ToTable("FoodsMeal");
                 });
 
-            modelBuilder.Entity("Dieta.Core.Data.Meal", b =>
+            modelBuilder.Entity("Dieta.Core.Entities.Meal", b =>
                 {
-                    b.Property<int>("MealId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MealId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -260,7 +260,7 @@ namespace Dieta.Infrastructure.Migrations
                     b.Property<int>("Ordenation")
                         .HasColumnType("int");
 
-                    b.HasKey("MealId");
+                    b.HasKey("Id");
 
                     b.ToTable("Meals");
                 });
@@ -400,12 +400,12 @@ namespace Dieta.Infrastructure.Migrations
 
             modelBuilder.Entity("ClienteDiet", b =>
                 {
-                    b.HasOne("Dieta.Core.Data.Diet", null)
+                    b.HasOne("Dieta.Core.Entities.Diet", null)
                         .WithMany()
                         .HasForeignKey("DietId")
                         .HasConstraintName("FK_ClienteDiet_Dietas_DietId");
 
-                    b.HasOne("Dieta.Core.Data.ApplicationUser", null)
+                    b.HasOne("Dieta.Core.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -415,30 +415,30 @@ namespace Dieta.Infrastructure.Migrations
 
             modelBuilder.Entity("DietMeal", b =>
                 {
-                    b.HasOne("Dieta.Core.Data.Diet", null)
+                    b.HasOne("Dieta.Core.Entities.Diet", null)
                         .WithMany()
                         .HasForeignKey("DietsDietId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Dieta.Core.Data.Meal", null)
+                    b.HasOne("Dieta.Core.Entities.Meal", null)
                         .WithMany()
-                        .HasForeignKey("MealsMealId")
+                        .HasForeignKey("MealsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Dieta.Core.Data.FoodsMeal", b =>
+            modelBuilder.Entity("Dieta.Core.Entities.FoodsMeal", b =>
                 {
-                    b.HasOne("Dieta.Core.Data.Food", "Food")
+                    b.HasOne("Dieta.Core.Entities.Food", "Food")
                         .WithMany("FoodsMeals")
-                        .HasForeignKey("FoodId")
+                        .HasForeignKey("FoodsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Dieta.Core.Data.Meal", "Meal")
+                    b.HasOne("Dieta.Core.Entities.Meal", "Meal")
                         .WithMany("FoodsMeals")
-                        .HasForeignKey("MealId")
+                        .HasForeignKey("MealsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -458,7 +458,7 @@ namespace Dieta.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Dieta.Core.Data.ApplicationUser", null)
+                    b.HasOne("Dieta.Core.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -467,7 +467,7 @@ namespace Dieta.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Dieta.Core.Data.ApplicationUser", null)
+                    b.HasOne("Dieta.Core.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -482,7 +482,7 @@ namespace Dieta.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Dieta.Core.Data.ApplicationUser", null)
+                    b.HasOne("Dieta.Core.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -491,19 +491,19 @@ namespace Dieta.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Dieta.Core.Data.ApplicationUser", null)
+                    b.HasOne("Dieta.Core.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Dieta.Core.Data.Food", b =>
+            modelBuilder.Entity("Dieta.Core.Entities.Food", b =>
                 {
                     b.Navigation("FoodsMeals");
                 });
 
-            modelBuilder.Entity("Dieta.Core.Data.Meal", b =>
+            modelBuilder.Entity("Dieta.Core.Entities.Meal", b =>
                 {
                     b.Navigation("FoodsMeals");
                 });

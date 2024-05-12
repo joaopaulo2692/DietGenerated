@@ -31,13 +31,13 @@ namespace Dieta.Infrastructure.Repository
                 Diet dietDb = await _db.Diets.Where(x => x.DietId == diet.DietId).FirstOrDefaultAsync();
                 if (dietDb == null) return Result.Fail("Dieta não encontrada");
 
-                Meal mealDb = await _db.Meals.Where(x => x.MealId == meal.MealId).FirstOrDefaultAsync();
+                Meal mealDb = await _db.Meals.Where(x => x.Id == meal.Id).FirstOrDefaultAsync();
                 if (mealDb == null) return Result.Fail("Refeição não encontrada");
 
                 FoodsMeal foodsMeal = new FoodsMeal()
                 {
-                    FoodId = food.FoodId,
-                    MealId = meal.MealId,
+                    FoodsId = food.Id,
+                    MealsId = meal.Id,
                     Ordenation = ordenationFood,
                     Amount = amount
                 };

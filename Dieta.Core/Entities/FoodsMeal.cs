@@ -10,10 +10,8 @@ namespace Dieta.Core.Entities
 {
     public class FoodsMeal
     {
-        [Key]
-        public int FoodId { get; set; }
-        [Key]
-        public int MealId { get; set; }
+        public int FoodsId { get; set; }
+        public int MealsId { get; set; }
         public int Ordenation { get; set; }
         public double Amount{ get; set; }
 
