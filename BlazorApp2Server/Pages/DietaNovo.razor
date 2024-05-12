@@ -10,7 +10,7 @@
 @using global::Dieta.Core.Interfaces
 @inject IHttpClientFactory ClientFactory
 @inject IFoodRepository alimentosService
-@inject DietaController _dietController
+@inject DietController _dietController
 @inject IMapper _mapper
 
 
@@ -130,7 +130,7 @@
          // Result result = await alimentosService.CreateListFoodAsync(listaAlimentos);
 
 
-        alimentosLista = await alimentosService.GetAllAsync();
+        alimentosLista = await alimentosService.FindAllAsync();
         alimentosBancoDeDados = await alimentosService.GetAllSavedAsync();
 
     }

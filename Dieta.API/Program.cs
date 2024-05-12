@@ -1,4 +1,5 @@
 using AutoMapper;
+using Dieta.API.Extensions;
 using Dieta.Core.Entities;
 using Dieta.Core.Interfaces.Repository;
 using Dieta.Core.Interfaces.Service;
@@ -26,10 +27,22 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddSignInManager<SignInManager<ApplicationUser>>();
 
-builder.Services.AddScoped<IFoodRepository,FoodRepository>();
-builder.Services.AddScoped<IUserRepository,UserRepository>();
-builder.Services.AddScoped<IDietRepository,DietRepository>();
+//void ConfigureServices(IServiceCollection services)
+//{ 
+//    services.AddRepositories();
+//    services.AddServices();
+//}
+builder.Services.AddScoped<IFoodRepository, FoodRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IDietRepository, DietRepository>();
+builder.Services.AddScoped<IMealRepository, MealRepository>();
 builder.Services.AddScoped<IFoodService, FoodService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
+//builder.Services.AddScoped<IFoodRepository,FoodRepository>();
+//builder.Services.AddScoped<IUserRepository,UserRepository>();
+//builder.Services.AddScoped<IDietRepository,DietRepository>();
+//builder.Services.AddScoped<IFoodService, FoodService>();
 
 
 builder.Services.AddControllers();

@@ -26,6 +26,14 @@ namespace Dieta.Infrastructure.Repository
                 diet.UpdatedAt = DateTime.Now;
                 diet.CreatedAt = DateTime.Now;
                 diet.Meals = new List<Meal>();
+                for (int i = 0; i < 5; i++)
+                {
+                    Meal meal = new Meal();
+                    meal.NameMeal = $"Refeição {i + 1}";
+                    meal.Ordenation = i + 1;
+                    diet.Meals.Add(meal);
+                }
+                diet.Client = new List<ApplicationUser>();
                 diet.Client.Add(userDb);
                 _db.Diets.Add(diet);
 

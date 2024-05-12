@@ -52,13 +52,13 @@ namespace Dieta.Infrastructure.DietaContext
 
             modelBuilder.Entity<FoodsMeal>()
               .HasOne(x => x.Food)
-              .WithMany(x => x.FoodsMeals)
+              .WithMany()
               .HasForeignKey(x => x.FoodId);
               
 
             modelBuilder.Entity<FoodsMeal>()
               .HasOne(x => x.Meal)
-              .WithMany(x => x.FoodsMeals)
+              .WithMany()
               .HasForeignKey(x => x.MealId);
 
 

@@ -10,13 +10,13 @@ namespace Dieta.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class DietaController : ControllerBase
+    public class DietController : ControllerBase
     {
         private readonly IFoodRepository _foodRepo;
         private readonly IFoodService _foodService;
 
 
-        public DietaController(IFoodRepository alimentoRepo, IFoodService foodSerice)
+        public DietController(IFoodRepository alimentoRepo, IFoodService foodSerice)
         {
             _foodRepo = alimentoRepo;
             _foodService = foodSerice;
@@ -24,13 +24,13 @@ namespace Dieta.API.Controllers
 
         [HttpPost]
         [Route("Save")]
-        public async Task<IActionResult> SaveDiet([FromQuery]Food food, double amount, int meal)
+        public async Task<IActionResult> SaveDiet([FromBody]FoodVO food)
         {
             try
             {
                 Claim idUser = User.FindFirst(ClaimTypes.NameIdentifier);
 
-                Result response = await _foodService.AddFoodAsync(food, amount, meal, idUser.Value);
+                Result response = await _foodService.AddFoodAsync(food, idUser.Value);
 
                 return StatusCode(StatusCodes.Status200OK, response);
             }
@@ -58,11 +58,11 @@ namespace Dieta.API.Controllers
 
         [HttpGet]
         [Route("GetAll")]
-        public async Task<IActionResult> GetlAllAlimentos()
+        public async Task<IActionResult> GetAllFood()
         {
             try
             {
-                List<Food> alimentos = await _foodRepo.GetAllAsync();
+                List<FoodVO> alimentos = await _foodService.GetAllAsync();
 
                 return StatusCode(StatusCodes.Status200OK, alimentos);
             }

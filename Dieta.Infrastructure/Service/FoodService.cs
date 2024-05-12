@@ -1,4 +1,6 @@
-﻿using Dieta.Core.Entities;
+﻿using AutoMapper;
+using Dieta.Communication.ViewObject.Food;
+using Dieta.Core.Entities;
 using Dieta.Core.Interfaces.Repository;
 using Dieta.Core.Interfaces.Service;
 using FluentResults;
@@ -14,27 +16,39 @@ namespace Dieta.Infrastructure.Service
     {
         private readonly IDietRepository _dietRepo;
         private readonly IUserRepository _userRepo;
+        private readonly IFoodRepository _foodRepo;
+        private readonly IMapper _mapper;
+        private readonly IMealRepository _mealRepo;
 
-        public FoodService(IDietRepository dietRepo, IUserRepository userRepo)
+        public FoodService(IDietRepository dietRepo, IUserRepository userRepo, IFoodRepository foodRepo, IMapper mapper, IMealRepository mealRepo)
         {
             _dietRepo = dietRepo;
             _userRepo = userRepo;
+            _foodRepo = foodRepo;
+            _mapper = mapper;
+            _mealRepo = mealRepo;
         }
 
-        public async Task<Result> AddFoodAsync(Food food, double amount, int meal, string idUser)
+        public async Task<Result> AddFoodAsync(FoodVO food, string idUser)
         {
             try
             {
                 Diet dietDb = await _dietRepo.FindByUserIdAsync(idUser);
+                ApplicationUser user = await _userRepo.FindById(idUser);
                 if (dietDb == null)
                 {
-                    ApplicationUser user = await _userRepo.FindById(idUser);
                     Result dietResponse = await _dietRepo.CreateAsync(user, new Diet());
                     Result.Fail("Usuário sem dieta iniciada");
                 }
-                Food foodConvert = AmountConversion(food, amount);
+                FoodVO foodConvert = AmountConversion(food);
+                Meal mealDb = await _mealRepo.FindById(food.MealOrdenation, idUser);
+                if (mealDb == null) return Result.Fail("Refeição não encontrada");
+                
+                Food foodConverted = _mapper.Map<Food>(foodConvert);
 
-                return Result.Fail("Usuário sem dieta iniciada");
+                Result response = await _foodRepo.AddFoodAsync(foodConverted, dietDb, mealDb, food.MealOrdenation, food.Amount);
+
+                return response;
 
             }
             catch(Exception ex)
@@ -43,26 +57,42 @@ namespace Dieta.Infrastructure.Service
             }
         }
 
-        public Food AmountConversion(Food food, double amount)
+        public FoodVO AmountConversion(FoodVO food)
         {
-            if (amount == 100)
+            if (food.Amount == 100)
             {
                 return food;
             }
             else
             {
-                Food foodConverted = new Food()
+                FoodVO foodConverted = new FoodVO()
                 {
-                    FoodName = food.FoodName,
-                    Prepare = food.Prepare,
-                    //Amount = amount,
-                    Protein = (food.Protein * amount) / 100,
-                    Carb = (food.Carb * amount) / 100,
-                    Fat = (food.Fat * amount) / 100,
-                    Fiber = (food.Fiber * amount) / 100,
-                    Kcal = (food.Kcal * amount) / 100
+                    Food = food.Food,
+                    Protein = (food.Protein * food.Amount) / 100,
+                    Carb = (food.Carb * food.Amount) / 100,
+                    Fat = (food.Fat * food.Amount) / 100,
+                    Fiber = (food.Fiber * food.Amount) / 100,
+                    Kcal = (food.Kcal * food.Amount) / 100
                 };
                 return foodConverted;
+            }
+        }
+
+        public async Task<List<FoodVO>> GetAllAsync()
+        {
+            try
+            {
+                List<Food> foodList = await _foodRepo.FindAllAsync();
+                if(foodList == null)
+                {
+                    return new List<FoodVO>();
+                }
+                List<FoodVO> foodListVO = _mapper.Map<List<FoodVO>>(foodList);
+                return foodListVO;
+            }
+            catch(Exception ex)
+            {
+                return new List<FoodVO>();
             }
         }
     }

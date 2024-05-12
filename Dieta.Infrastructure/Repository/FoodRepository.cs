@@ -25,7 +25,7 @@ namespace Dieta.Infrastructure.Repository
             _httpClient = httpClient;
         }
 
-        public async Task<Result> AddFoodAsync(Food food,Diet diet, Meal meal, int ordenationFood)
+        public async Task<Result> AddFoodAsync(Food food,Diet diet, Meal meal, int ordenationFood, double amount)
         { 
             try{
                 Diet dietDb = await _db.Diets.Where(x => x.DietId == diet.DietId).FirstOrDefaultAsync();
@@ -38,9 +38,16 @@ namespace Dieta.Infrastructure.Repository
                 {
                     FoodId = food.FoodId,
                     MealId = meal.MealId,
+                    Ordenation = ordenationFood,
+                    Amount = amount
                 };
 
-                dietDb.Meals.Add(mealDb);
+                _db.FoodsMeal.Add(foodsMeal);
+                //if(mealDb == null)
+                //{
+                //    mealDb = new List<FoodsMeal>();
+                //}
+                //mealDb.FoodsMeals.Add(foodsMeal);
 
                 await _db.SaveChangesAsync();
                 
@@ -98,11 +105,11 @@ namespace Dieta.Infrastructure.Repository
             throw new NotImplementedException();
         }
 
-        public async Task<List<Food>> GetAllAsync()
+        public async Task<List<Food>> FindAllAsync()
         {
             try
             {
-                //List<Food> alimentos = await _db.Foods.ToListAsync();
+                List<Food> alimentos = await _db.Foods.ToListAsync();
 
                 return new List<Food>();
             }

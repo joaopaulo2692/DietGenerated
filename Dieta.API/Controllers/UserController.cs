@@ -2,6 +2,7 @@
 using Dieta.Communication.ViewObject.Client;
 using Dieta.Core.Entities;
 using Dieta.Core.Interfaces.Repository;
+using Dieta.Core.Interfaces.Service;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,13 +13,17 @@ namespace Dieta.API.Controllers
     public class UserController : ControllerBase
     {
 
-        private readonly IUserRepository _userRepo;
+       
         private readonly IMapper _mapper;
+        private readonly IUserService _userService;
+        private readonly IUserRepository _userRepo;
 
-        public UserController(IUserRepository userRepo, IMapper mapper)
+        public UserController(IMapper mapper, IUserService userService, IUserRepository userRepo)
         {
-            _userRepo = userRepo;
+
             _mapper = mapper;
+            _userService = userService;
+            _userRepo = userRepo;
         }
 
 
@@ -29,8 +34,8 @@ namespace Dieta.API.Controllers
 
             try
             {
-                ApplicationUser client = _mapper.Map<ApplicationUser>(user);
-                Result response = await _userRepo.CreateUser(client);
+                Result response = await _userService.CreateUser(user);
+                
                 return StatusCode(StatusCodes.Status201Created, response);
 
             }
@@ -46,38 +51,38 @@ namespace Dieta.API.Controllers
         {
             try
             {
-                
+
                 ApplicationUser client = await _userRepo.FindByEmail(user.Email);
                 Result response = await _userRepo.SignInUser(client, user.Password);
-              
-                if(response.IsFailed)
+
+                if (response.IsFailed)
                 {
                     return StatusCode(StatusCodes.Status404NotFound, response);
                 }
 
                 return StatusCode(StatusCodes.Status200OK, response);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
-        [HttpGet]
-        [Route("GetAll")]
-        public async Task<IActionResult> GetAll()
-        {
-            List<ApplicationUser> clients= await _userRepo.FindAll();
-            return StatusCode(StatusCodes.Status200OK, clients);
-        }
+        //[HttpGet]
+        //[Route("GetAll")]
+        //public async Task<IActionResult> GetAll()
+        //{
+        //    List<ApplicationUser> clients= await _userRepo.FindAll();
+        //    return StatusCode(StatusCodes.Status200OK, clients);
+        //}
 
-        [HttpGet]
-        [Route("GetById")]
-        public async Task<IActionResult> GetById(string id)
-        {
-            ApplicationUser client = await _userRepo.FindById(id);
-            return StatusCode(StatusCodes.Status200OK, client);
-        }
+        //[HttpGet]
+        //[Route("GetById")]
+        //public async Task<IActionResult> GetById(string id)
+        //{
+        //    ApplicationUser client = await _userRepo.FindById(id);
+        //    return StatusCode(StatusCodes.Status200OK, client);
+        //}
 
         //[HttpPost]
         //[Route("DeleteUser")]
@@ -86,6 +91,6 @@ namespace Dieta.API.Controllers
 
         //}
 
-      
+
     }
 }

@@ -10,6 +10,7 @@ namespace Dieta.Core.Interfaces.Service
 {
     public interface IUserService
     {
-        public Task<Result> CreateUser(UserVO userVO);
+        public Task<Result> CreateUser(UserVO userVO);  
+        public Task<Result> Login(LoginVO userVO);  
     }
 }
