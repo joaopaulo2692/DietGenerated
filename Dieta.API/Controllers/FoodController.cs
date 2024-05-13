@@ -18,6 +18,7 @@ namespace Dieta.API.Controllers
         }
 
         [HttpPost]
+        [Route("Save")]
         public async Task<IActionResult> AddFood([FromBody]FoodVO food)
         {
             try
@@ -35,6 +36,30 @@ namespace Dieta.API.Controllers
                 return StatusCode(StatusCodes.Status201Created);
             }
             catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpPost]
+        [Route("Remove")]
+        public async Task<IActionResult> RemoveFood([FromBody] FoodVO food)
+        {
+            try
+            {
+                Claim idUser = User.FindFirst(ClaimTypes.NameIdentifier);
+                if (idUser == null)
+                {
+                    return StatusCode(StatusCodes.Status401Unauthorized);
+                }
+                Result response = await _foodService.RemoveFoodAsync(food, idUser.Value);
+                if (response.IsFailed)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError);
+                }
+                return StatusCode(StatusCodes.Status201Created);
+            }
+            catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }

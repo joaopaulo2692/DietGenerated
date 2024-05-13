@@ -12,6 +12,10 @@ namespace Dieta.Core.Interfaces.Repository
     {
         public Task<Result> CreateAsync(ApplicationUser client, Diet diet);
         public Task<Diet> FindByUserIdAsync(string email);
-        
+        public Task<TotalDiet> FindTotalDietByUserIdAsync(string id);
+        public Task<Result> UpdateTotalDietByUserIdAsync(TotalDiet totalDiet, string id);
+        public Task<Result> DisableAsync(Diet diet);
+
+
     }
 }

@@ -38,6 +38,7 @@ builder.Services.AddScoped<IDietRepository, DietRepository>();
 builder.Services.AddScoped<IMealRepository, MealRepository>();
 builder.Services.AddScoped<IFoodService, FoodService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IDietService, DietService>();
 
 //builder.Services.AddScoped<IFoodRepository,FoodRepository>();
 //builder.Services.AddScoped<IUserRepository,UserRepository>();

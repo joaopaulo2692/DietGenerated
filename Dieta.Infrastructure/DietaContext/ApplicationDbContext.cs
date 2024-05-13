@@ -14,6 +14,7 @@ namespace Dieta.Infrastructure.DietaContext
         public DbSet<Diet> Diets { get; set; }
         public DbSet<Meal> Meals { get; set; }
         public DbSet<FoodsMeal> FoodsMeal { get; set; }
+        public DbSet<TotalDiet> TotalDiets { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions options) : base(options)

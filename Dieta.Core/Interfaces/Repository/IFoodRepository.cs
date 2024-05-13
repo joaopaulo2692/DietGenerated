@@ -14,6 +14,9 @@ namespace Dieta.Core.Interfaces.Repository
         public Task<Result> CreateListFoodAsync(List<Food> food);
 
         public Task<Result> AddFoodAsync(Food food, Diet diet, Meal meal, int ordenationFood, double amount);
+        public Task<Result> RemoveFoodAsync(FoodsMeal foodMeal);
+
+        public Task<Food> FindByIdAsync(int id);
 
     }
 }

@@ -43,11 +43,6 @@ namespace Dieta.Infrastructure.Repository
                 };
 
                 _db.FoodsMeal.Add(foodsMeal);
-                //if(mealDb == null)
-                //{
-                //    mealDb = new List<FoodsMeal>();
-                //}
-                //mealDb.FoodsMeals.Add(foodsMeal);
 
                 await _db.SaveChangesAsync();
                 
@@ -136,6 +131,44 @@ namespace Dieta.Infrastructure.Repository
             catch(Exception ex)
             {
                 return new List<Food>();
+            }
+        }
+
+        public async Task<Food> FindByIdAsync(int id)
+        {
+            try
+            {
+                Food food = await _db.Foods.Where(x => x.Id == id).FirstOrDefaultAsync();
+                return food;
+            }
+            catch(Exception ex)
+            {
+                return new Food();
+            }
+        }
+
+        public async Task<Result> RemoveFoodAsync(FoodsMeal foodMeal)
+        {
+            try
+            {
+                FoodsMeal foodMealDb = await _db.FoodsMeal.Where(x => x.FoodsId == foodMeal.FoodsId &&
+                                                                                x.MealsId == foodMeal.MealsId &&
+                                                                                x.Ordenation == foodMeal.Ordenation &&
+                                                                                x.Amount == foodMeal.Amount)
+                                                                        .FirstOrDefaultAsync();
+
+
+                FoodsMeal food = await _db.FoodsMeal.Where(x => x.FoodsMealId == foodMealDb.FoodsMealId).FirstOrDefaultAsync();
+                _db.FoodsMeal.Remove(food);
+
+                
+                _db.SaveChangesAsync();
+
+                return Result.Ok();
+            }
+            catch(Exception ex)
+            {
+                return Result.Fail("Erro ao remover alimento");
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using Dieta.Communication.ViewObject.Food;
+﻿using Dieta.Communication.ViewObject.Diet;
+using Dieta.Communication.ViewObject.Food;
 using Dieta.Core.Entities;
 using Dieta.Core.Interfaces.Repository;
 using Dieta.Core.Interfaces.Service;
@@ -14,12 +15,14 @@ namespace Dieta.API.Controllers
     {
         private readonly IFoodRepository _foodRepo;
         private readonly IFoodService _foodService;
+        private readonly IDietService _dietService;
 
 
-        public DietController(IFoodRepository alimentoRepo, IFoodService foodSerice)
+        public DietController(IFoodRepository alimentoRepo, IFoodService foodSerice, IDietService dietService)
         {
             _foodRepo = alimentoRepo;
             _foodService = foodSerice;
+            _dietService = dietService;
         }
 
         [HttpPost]
@@ -84,6 +87,29 @@ namespace Dieta.API.Controllers
             {
                 IEnumerable<Food> listaALimentos = new List<Food>();
                 return StatusCode(StatusCodes.Status400BadRequest, listaALimentos);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetTotalDiet")]
+        public async Task<IActionResult> GetTotalDiet()
+        {
+            try
+            {
+                Claim idUser = User.FindFirst(ClaimTypes.NameIdentifier);
+                if (idUser == null) return StatusCode(StatusCodes.Status401Unauthorized);
+
+                TotalDietVO totalDiet = await _dietService.GetTotalDietAsync(idUser.Value);
+                if(totalDiet == null)
+                {
+                    return StatusCode(StatusCodes.Status404NotFound);
+                }
+                return StatusCode(StatusCodes.Status200OK, totalDiet);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
     }
