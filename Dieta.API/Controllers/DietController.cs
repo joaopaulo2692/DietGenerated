@@ -112,5 +112,29 @@ namespace Dieta.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+        [HttpPost]
+        [Route("CreateDiet")]
+        public async Task<IActionResult> GetTotalDiet([FromBody]DietSaveVO diet)
+        {
+            try
+            {
+                Claim idUser = User.FindFirst(ClaimTypes.NameIdentifier);
+                if (idUser == null) return StatusCode(StatusCodes.Status401Unauthorized);
+
+                Result newDiet = await _dietService.CreateDiet(diet,idUser.Value);
+                if (newDiet.IsFailed)
+                {
+                    return StatusCode(StatusCodes.Status404NotFound);
+                }
+                return StatusCode(StatusCodes.Status200OK, newDiet);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
     }
 }

@@ -9,7 +9,7 @@ namespace Dieta.Core.Entities
     public class TotalDiet
     {
         public int Id { get; set; }
-        public int DietId { get; set; }
+        public int? DietId { get; set; }
         public double Carb { get; set; }
         public double Fat { get; set; }
         public double Protein { get; set; }

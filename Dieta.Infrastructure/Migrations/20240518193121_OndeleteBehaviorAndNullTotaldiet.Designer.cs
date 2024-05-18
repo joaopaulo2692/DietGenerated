@@ -4,6 +4,7 @@ using Dieta.Infrastructure.DietaContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dieta.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240518193121_OndeleteBehaviorAndNullTotaldiet")]
+    partial class OndeleteBehaviorAndNullTotaldiet
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,19 +25,19 @@ namespace Dieta.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ApplicationUserDiet", b =>
+            modelBuilder.Entity("ClienteDiet", b =>
                 {
-                    b.Property<string>("ClientId")
+                    b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("DietsDietId")
+                    b.Property<int?>("DietId")
                         .HasColumnType("int");
 
-                    b.HasKey("ClientId", "DietsDietId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("DietsDietId");
+                    b.HasIndex("DietId");
 
-                    b.ToTable("ClientDiet", (string)null);
+                    b.ToTable("ClienteDiet");
                 });
 
             modelBuilder.Entity("DietMeal", b =>
@@ -444,19 +447,19 @@ namespace Dieta.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ApplicationUserDiet", b =>
+            modelBuilder.Entity("ClienteDiet", b =>
                 {
-                    b.HasOne("Dieta.Core.Entities.ApplicationUser", null)
-                        .WithMany()
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Dieta.Core.Entities.Diet", null)
                         .WithMany()
-                        .HasForeignKey("DietsDietId")
+                        .HasForeignKey("DietId")
+                        .HasConstraintName("FK_ClienteDiet_Dietas_DietId");
+
+                    b.HasOne("Dieta.Core.Entities.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_ClienteDiet_Clientes_ClienteId");
                 });
 
             modelBuilder.Entity("DietMeal", b =>

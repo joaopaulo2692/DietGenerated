@@ -32,25 +32,27 @@ namespace Dieta.Infrastructure.DietaContext
               .HasMany(x => x.Meals) // Dieta has many Refeicoes
               .WithMany(x => x.Diets);   // Refeicao has many Dietas (optional, depending on your needs)
 
-            modelBuilder.Entity<ApplicationUser>()
-              .HasMany(c => c.Diets)       
-              .WithMany(d => d.Client)    
-              .UsingEntity<Dictionary<string, object>>(  
-                  "ClienteDiet",
-                  j => j
-                      .HasOne<Diet>()
-                      .WithMany()
-                      .HasForeignKey("DietId")
-                      .HasConstraintName("FK_ClienteDiet_Dietas_DietId"),
-                  j => j
-                      .HasOne<ApplicationUser>()
-                      .WithMany()
-                      .HasForeignKey("Id")
-                      .HasConstraintName("FK_ClienteDiet_Clientes_ClienteId")
-              );
+            //modelBuilder.Entity<ApplicationUser>()
+            //  .HasMany(c => c.Diets)       
+            //  .WithMany(d => d.Client)    
+            //  .UsingEntity<Dictionary<string, object>>(  
+            //      "ClienteDiet",
+            //      j => j
+            //          .HasOne<Diet>()
+            //          .WithMany()
+            //          .HasForeignKey("DietId")
+            //          .HasConstraintName("FK_ClienteDiet_Dietas_DietId"),
+            //      j => j
+            //          .HasOne<ApplicationUser>()
+            //          .WithMany()
+            //          .HasForeignKey("Id")
+            //          .HasConstraintName("FK_ClienteDiet_Clientes_ClienteId")
+            //  );
 
-            //modelBuilder.Entity<FoodsMeal>()  // Define AlimentosRefeicao entity
-            //  .HasKey(x => new { x.FoodsId, x.MealsId }); // Composite key
+            modelBuilder.Entity<ApplicationUser>()
+                .HasMany(u => u.Diets)
+                .WithMany(d => d.Client)
+                .UsingEntity(j => j.ToTable("ClientDiet"));
 
             modelBuilder.Entity<FoodsMeal>()
                 .HasKey(fm => fm.FoodsMealId);
@@ -64,13 +66,15 @@ namespace Dieta.Infrastructure.DietaContext
             modelBuilder.Entity<FoodsMeal>()
               .HasOne(x => x.Meal)
               .WithMany(x => x.FoodsMeals)
-              .HasForeignKey(x => x.MealsId);
+              .HasForeignKey(x => x.MealsId)
+              .OnDelete(DeleteBehavior.Cascade);
 
 
             modelBuilder.Entity<TotalDiet>()
                 .HasOne(x => x.Diet)
                 .WithOne(x => x.TotalDiet)
-                .HasForeignKey<TotalDiet>(p => p.DietId);
+                .HasForeignKey<TotalDiet>(p => p.DietId)
+                .OnDelete(DeleteBehavior.Cascade);
 
 
 

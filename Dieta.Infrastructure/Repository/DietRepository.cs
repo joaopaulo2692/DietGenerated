@@ -42,7 +42,10 @@ namespace Dieta.Infrastructure.Repository
 
                 await _db.SaveChangesAsync();
 
-                
+                diet.TotalDietId = newTotalDiet.Id;
+
+                await _db.SaveChangesAsync();
+
                 return Result.Ok().WithSuccess(diet.DietId.ToString());
             }
 

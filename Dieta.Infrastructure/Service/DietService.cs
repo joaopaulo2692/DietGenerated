@@ -31,7 +31,7 @@ namespace Dieta.Infrastructure.Service
             {
                 ApplicationUser user = await _userRepo.FindById(idUser);
                 Diet dietDb = await _dietRepo.FindByUserIdAsync(idUser);
-                if (user.Diets != null)
+                if (dietDb != null)
                 {
                     Result dietDisable = await _dietRepo.DisableAsync(dietDb);
                     if (dietDisable.IsFailed)
