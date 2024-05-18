@@ -98,21 +98,21 @@ namespace Dieta.Infrastructure.Service
             }
         }
 
-        public async Task<List<FoodVO>> GetAllAsync()
+        public async Task<IEnumerable<FoodVO>> GetAllAsync()
         {
             try
             {
-                List<Food> foodList = await _foodRepo.FindAllAsync();
+                IEnumerable<Food> foodList = await _foodRepo.FindAllAsync();
                 if(foodList == null)
                 {
-                    return new List<FoodVO>();
+                    return Enumerable.Empty<FoodVO>();
                 }
-                List<FoodVO> foodListVO = _mapper.Map<List<FoodVO>>(foodList);
+                IEnumerable<FoodVO> foodListVO = _mapper.Map<IEnumerable<FoodVO>>(foodList);
                 return foodListVO;
             }
             catch(Exception ex)
             {
-                return new List<FoodVO>();
+                return Enumerable.Empty<FoodVO>();
             }
         }
 

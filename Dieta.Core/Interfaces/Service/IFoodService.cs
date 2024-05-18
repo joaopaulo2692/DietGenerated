@@ -11,6 +11,6 @@ namespace Dieta.Core.Interfaces.Service
 
         public FoodVO AmountConversion(FoodVO food);
 
-        public Task<List<FoodVO>> GetAllAsync();
+        public Task<IEnumerable<FoodVO>> GetAllAsync();
     }
 }

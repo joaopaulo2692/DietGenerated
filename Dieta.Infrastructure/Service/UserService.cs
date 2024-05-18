@@ -49,13 +49,13 @@ namespace Dieta.Infrastructure.Service
                 Diet diet = new Diet();
                 diet.DietName = user.DietName;
                 diet.DietType = user.DietType;
+       
                 Result dietGenerator = await _dietRepo.CreateAsync(userSave, diet);
                 if(dietGenerator.IsFailed)
                 {
                     return Result.Fail("Erro ao criar dieta");
                 }
-                //Result mealInicital = await _mealRepo.CreateInitialMeals(int.Parse(dietGenerator.Successes.FirstOrDefault().ToString()));
-                //return mealInicital;
+
                 return dietGenerator;
             }
             catch (Exception ex)

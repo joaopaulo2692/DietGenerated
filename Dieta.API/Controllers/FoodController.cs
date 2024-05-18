@@ -64,5 +64,21 @@ namespace Dieta.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+        [HttpGet]
+        [Route("GetAll")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                IEnumerable<FoodVO> alimentos = await _foodService.GetAllAsync();
+
+                return StatusCode(StatusCodes.Status200OK, alimentos);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+        }
     }
 }
