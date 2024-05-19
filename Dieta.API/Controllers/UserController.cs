@@ -14,14 +14,13 @@ namespace Dieta.API.Controllers
     {
 
        
-        private readonly IMapper _mapper;
+
         private readonly IUserService _userService;
         private readonly IUserRepository _userRepo;
 
-        public UserController(IMapper mapper, IUserService userService, IUserRepository userRepo)
+        public UserController( IUserService userService, IUserRepository userRepo)
         {
 
-            _mapper = mapper;
             _userService = userService;
             _userRepo = userRepo;
         }

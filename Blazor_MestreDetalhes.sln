@@ -15,9 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dieta.API", "Dieta.API\Diet
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dieta.Core", "Dieta.Core\Dieta.Core.csproj", "{67072071-727B-4E6C-B5CA-47FB00F6E235}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dieta.Infrastructure", "Dieta.Infrastructure\Dieta.Infrastructure.csproj", "{673C0BB7-C9F9-4001-927C-B404029F1F66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dieta.Infrastructure", "Dieta.Infrastructure\Dieta.Infrastructure.csproj", "{673C0BB7-C9F9-4001-927C-B404029F1F66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dieta.Communication", "Dieta.Communication\Dieta.Communication.csproj", "{18D2CFFF-BFFA-4EB1-8AF4-6E4488082189}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dieta.Communication", "Dieta.Communication\Dieta.Communication.csproj", "{18D2CFFF-BFFA-4EB1-8AF4-6E4488082189}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

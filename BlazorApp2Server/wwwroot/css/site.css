@@ -66,3 +66,7 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+.my-custom-column-class {
+    padding: 20px; /* Adicione o espaçamento interno desejado */
+}
